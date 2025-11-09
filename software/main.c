@@ -3,7 +3,7 @@
  *   main part
  *
  *   (c) 2012-2025 by Markus Reschke
- *   based on code from Markus Frejek and Karl-Heinz Kübbeler
+ *   based on code from Markus Frejek and Karl-Heinz Kï¿½bbeler
  *
  * ************************************************************************ */
 
@@ -109,7 +109,7 @@ void Show_SemiPinout(void)
 
 /*
  *  show simple pinout
- *  - displays: 1:a 2:b 3:c 
+ *  - displays: 1:a 2:b 3:c
  *
  *  required:
  *  - DesX: designators for probes #1, #2 and #3
@@ -273,7 +273,7 @@ void Show_ENormCodes(uint32_t Value, int8_t Scale, uint8_t ESeries, uint8_t Tole
    *  multiplier reference
    *  - R:   0 (10^0)   -> 1 Ohms
    *    C: -12 (10^-12) -> 1 pF
-   *    L:  -6 (10^-6)  -> 1 µH
+   *    L:  -6 (10^-6)  -> 1 ï¿½H
    *  - ref_scale as function argument?
    *    scale = scale - ref_scale
    */
@@ -528,7 +528,7 @@ void Show_SingleResistor(uint8_t Probe1, uint8_t Probe2, int8_t Mode)
 
   if (Mode)
   {
-    Display_SemiPinDesignator(Probe2); 
+    Display_SemiPinDesignator(Probe2);
   }
   else
   {
@@ -559,7 +559,7 @@ void Show_SingleResistor(uint8_t ID1, uint8_t ID2)
   /* show pinout */
   Display_Char(ID1);
   Display_EEString(Resistor_str);
-  Display_Char(ID2); 
+  Display_Char(ID2);
 
   /* show resistance value */
   Display_Space();
@@ -585,7 +585,7 @@ void Show_Resistor(void)
   if (Check.Resistors == 1)        /* single resistor */
   {
     R2 = NULL;                     /* disable second resistor */
-    Pin = R1->A;                   /* make B the first pin */
+    Pin = R1->A;                   /* make A the first pin */
   }
   else                             /* multiple resistors */
   {
@@ -598,7 +598,7 @@ void Show_Resistor(void)
 
     if (Check.Resistors == 3)      /* three resistors */
     {
-      Resistor_Type     *Rmax;     /* pointer to largest resistor */    
+      Resistor_Type     *Rmax;     /* pointer to largest resistor */
 
       /*
        *  3 resistors mean 2 single resistors and both resistors in series.
@@ -855,7 +855,7 @@ void Show_Capacitor(void)
   MaxCap = &Caps[0];               /* pointer to first cap */
   Cap = MaxCap;
 
-  for (Counter = 1; Counter <= 2; Counter++) 
+  for (Counter = 1; Counter <= 2; Counter++)
   {
     Cap++;                         /* next cap */
 
@@ -948,7 +948,7 @@ void Show_Capacitor(void)
  *  show current (leakage or whatever) of semiconductor
  *
  *  Mapping for Semi structure:
- *  - I_value - current 
+ *  - I_value - current
  *  - I_scale - scale for current (10^x)
  */
 
@@ -1196,13 +1196,22 @@ void Show_Diode(void)
       /* show B-E resistor */
       #ifdef UI_PROBE_COLORS
         Show_SingleResistor(R_Pin1, R_Pin2, 0);   /* show resistor */
-      #else 
+      #else
         R_Pin1 += '1';                  /* convert probe ID to character */
         R_Pin2 += '1';
         Show_SingleResistor(R_Pin1, R_Pin2);      /* show resistor */
       #endif
 
       CapFlag = 0;                      /* skip capacitance */
+    }
+  } else {
+    int8_t score = ScoreDiodeType(D1);
+    if (score >= 1) {
+      Display_Char(' ');
+      Display_EEString(Ge_str);
+    } else if (score <= -2) {
+      Display_Char(' ');
+      Display_EEString(Si_str);
     }
   }
 
@@ -1254,7 +1263,7 @@ void Show_Diode(void)
    *  display capacitance in next line
    */
 
-  if (CapFlag == 1)                     /* if feasable */ 
+  if (CapFlag == 1)                     /* if feasable */
   {
     Display_NL_EEString_Space(DiodeCap_str);   /* display: C */
 
@@ -1311,7 +1320,7 @@ void Show_BJT(void)
    *  B   - Collector pin
    *  C   - Emitter pin
    *  U_1 - U_BE (mV) (not implemented yet)
-   *  U_3 - I_C/I_E (µA)
+   *  U_3 - I_C/I_E (ï¿½A)
    *  F_1 - hFE
    *  F_2 - reverse hFE
    *  I_value/I_scale - I_CEO
@@ -1368,10 +1377,20 @@ void Show_BJT(void)
     /* display: BJT */
     Display_ColoredEEString_Space(BJT_str, COLOR_TITLE);
     /* display: NPN / PNP */
-    Display_ColoredEEString(String, COLOR_TITLE);
+    Display_ColoredEEString_Space(String, COLOR_TITLE);
+    /* display: Si/Ge */
+    if (Check.Type & TYPE_GERMANIUM)
+      Display_ColoredEEString(Ge_str, COLOR_TITLE);
+    else
+      Display_ColoredEEString(Si_str, COLOR_TITLE);
   #else
     Display_EEString_Space(BJT_str);    /* display: BJT */
-    Display_EEString(String);           /* display: NPN / PNP */
+    Display_EEString_Space(String);     /* display: NPN / PNP */
+    /* display: Si/Ge */
+    if (Check.Type & TYPE_GERMANIUM)
+      Display_EEString(Ge_str);
+    else
+      Display_EEString(Si_str);
   #endif
 
   /* parasitic BJT (freewheeling diode on same substrate) */
@@ -1414,10 +1433,10 @@ void Show_BJT(void)
 
 
   /*
-   *  display B-E resistor in next line if detected 
+   *  display B-E resistor in next line if detected
    */
 
-  /* check for B-E resistor below 25kOhms */
+  /* check for B-E resistor below 25 kOhms */
   if (CheckSingleResistor(BE_C, BE_A, 25) == 1)   /* found B-E resistor */
   {
     Display_NextLine();            /* next line (#3) */
@@ -1493,8 +1512,8 @@ void Show_BJT(void)
 
   /*
    *  display V_BE in next line
-   *  - taken from diode's forward voltage
-   *  - B-E resistor renders value useless
+   *  - taken from diode's forward voltage (V_f)
+   *  - B-E resistor can render value useless
    */
 
   Diode = SearchDiode(BE_A, BE_C);      /* search for matching B-E diode */
@@ -1503,47 +1522,67 @@ void Show_BJT(void)
     Display_NL_EEString_Space(V_BE_str);     /* display: Vbe */
 
     /*
-     *  V_f is quite linear for a logarithmicly scaled I_b.
+     *  V_BE is quite linear for a logarithmically scaled I_b.
      *  So we may interpolate the V_f values of low and high test current
-     *  measurements for a virtual test current. Low test current is 10µA
-     *  and high test current is 7mA. That's a logarithmic scale of
+     *  measurements for a virtual test current. Low test current is 10 ï¿½A
+     *  and high test current is 7 mA. That's a logarithmic scale of
      *  3 decades.
      */
 
     /* calculate slope for one decade */
-    Slope = Diode->V_f - Diode->V_f2;
-    Slope /= 3;
+    Slope = Diode->V_f - Diode->V_f2;        /* difference */
+    Slope /= 3;                              /* / 3 decades */
 
     /* select V_BE based on hFE */
-    if (Semi.F_1 < 100)                 /* low h_FE */
+    if (Semi.F_1 < 100)            /* low h_FE */
     {
       /*
        *  BJTs with low hFE are power transistors and need a large I_b
-       *  to drive the load. So we simply take Vf of the high test current
-       *  measurement (7mA). 
+       *  to drive the load. So we simply take V_f of the high test current
+       *  measurement (7 mA).
        */
 
-      V_BE = Diode->V_f;
+      V_BE = Diode->V_f;                /* V_f for 7 mA */
     }
     else if (Semi.F_1 < 250)            /* mid-range h_FE */
     {
       /*
        *  BJTs with a mid-range hFE are signal transistors and need
-       *  a small I_b to drive the load. So we interpolate Vf for
-       *  a virtual test current of about 1mA.
+       *  a small I_b to drive the load. So we interpolate V_f for
+       *  a virtual test current of about 1 mA.
        */
 
-      V_BE = Diode->V_f - Slope;
+      V_BE = Diode->V_f - Slope;        /* based on V_f for 7 mA */
     }
     else                                /* high h_FE */
     {
       /*
        *  BJTs with a high hFE are small signal transistors and need
-       *  only a very small I_b to drive the load. So we interpolate Vf
-       *  for a virtual test current of about 0.1mA.
+       *  only a very small I_b to drive the load. So we interpolate V_f
+       *  for a virtual test current of about 0.1 mA.
        */
 
-      V_BE = Diode->V_f2 + Slope;
+      V_BE = Diode->V_f2 + Slope;       /* based on V_f for 10 ï¿½A */
+    }
+
+
+    /*
+     *  special case: Si Darlington with B-E resistors and high hFE
+     *  - High hFE triggers interpolation of V_BE which is going to be wrong
+     *    because B-E resistors screw up the hFE value.
+     *  - Also for Darlington with a single B-E resistor for 2nd BJT.
+     *  - Si Darlington with B-E resistors and low hFE meets conditions below
+     *    too but no harm is done (still V_f).
+     */
+
+    if (Diode->V_f > 1000)         /* likely Si Darlington (2 * V_BE) */
+    {
+      /* B-E resistors screw up V_f of low current measurement */
+      if (Diode->V_f2 < 700)       /* just 1 * V_BE */
+      {
+        /* take V_f (no interpolation) */
+        V_BE = Diode->V_f;         /* V_f for 7 mA */
+      }
     }
 
     Display_Value(V_BE, -3, 'V');       /* in mV */
@@ -1623,7 +1662,7 @@ void Show_BJT(void)
 
 void Show_FET_Extras(void)
 {
-  Diode_Type        *Diode;        /* pointer to diode */  
+  Diode_Type        *Diode;        /* pointer to diode */
   uint8_t           Anode;         /* anode of diode */
   uint8_t           Cathode;       /* cathode of diode */
 
@@ -1830,7 +1869,7 @@ void Show_FET(void)
 
   /* display channel type */
   Show_FET_Channel();
-      
+
   /* display mode for MOSFET */
   if (Check.Type & TYPE_MOSFET) Show_FET_Mode();
 
@@ -1880,7 +1919,7 @@ void Show_FET(void)
 
 
 /*
- *  show IGBT  
+ *  show IGBT
  */
 
 void Show_IGBT(void)
@@ -1979,7 +2018,7 @@ void Show_PUT(void)
    *  A   - Gate
    *  B   - Anode
    *  C   - Cathode
-   *  U_1 - V_f (mV)
+   *  U_1ï¿½- V_f (mV)
    *  U_2 - V_T (mV)
    *
    *  Mapping for Semi structure:
@@ -2042,13 +2081,13 @@ void Show_UJT(void)
   #endif
 
   #ifndef UI_NO_TEXTPINOUT
-  /* display pinout in line #2 */  
+  /* display pinout in line #2 */
   Display_NextLine();                   /* next line (#2) */
   Show_SemiPinout();                    /* display pinout */
   #endif
 
   /* display r_BB in line #3 */
-  Display_NL_EEString_Space(R_BB_str);  /* display: R_BB */  
+  Display_NL_EEString_Space(R_BB_str);  /* display: R_BB */
   Display_Value(Resistors[0].Value, Resistors[0].Scale, LCD_CHAR_OMEGA);
 }
 
@@ -2079,7 +2118,7 @@ void Show_Zener(void)
     Display_EEString(Zener_str);        /* display: Zener */
   #endif
 
-  /* display voltage in line #2 */  
+  /* display voltage in line #2 */
   Display_NextLine();                   /* next line (#2) */
   Display_Value(Semi.U_1, -3, 'V');     /* display voltage */
 
@@ -2181,7 +2220,7 @@ void PowerOff(void)
   #ifdef POWER_SWITCH_SOFT
   POWER_PORT &= ~(1 << POWER_CTRL);     /* power off myself: set pin low */
     #ifdef PASSIVE_POWER_CTRL
-    POWER_DDR |= (1 << POWER_CTRL);     /* set pin to output mode */
+    POWER_DDR |= (1 << POWER_CTRL);         /* set pin to output mode */
     #endif
   #endif
 
@@ -2347,7 +2386,7 @@ void ShowBattery(void)
 
 
 
-/*
+ /*
  *  check battery
  *  - store battery voltage in Cfg.Vbat
  *  - power off in case of a low battery
@@ -2365,7 +2404,7 @@ void CheckBattery(void)
 
   /*
    *  ADC pin is connected to a voltage divider (top: R1 / bottom: R2).
-   *  - U2 = (Uin / (R1 + R2)) * R2 
+   *  - U2 = (Uin / (R1 + R2)) * R2
    *  - Uin = (U2 * (R1 + R2)) / R2
    */
 
@@ -2453,7 +2492,7 @@ int main(void)
   ADC_DDR = (1 << TP_REF);              /* disable relay */
   #endif
 
-  /* catch watchdog */  
+  /* catch watchdog */
   Test = (MCUSR & (1 << WDRF));         /* save watchdog flag */
   MCUSR &= ~(1 << WDRF);                /* reset watchdog flag */
   wdt_disable();                        /* disable watchdog */
@@ -2910,6 +2949,16 @@ cycle_start:
     goto cycle_control;            /* skip probing */
     /* will also change Key */
   }
+  #elif defined (UI_SKIP_FIRST_PROBING)
+  /* skip first probing after power-on when in auto-hold mode */
+  if (Key == KEY_POWER_ON)         /* first cycle */
+  {
+    if (Cfg.OP_Mode & OP_AUTOHOLD)      /* in auto-hold mode */
+    {
+      goto cycle_control;               /* skip probing */
+      /* will also change Key */
+    }
+  }
   #endif
 
   /* display start of probing */
@@ -2958,7 +3007,7 @@ cycle_start:
 
     /* tell user to be patient with large caps :) */
     Display_Space();
-    Display_Char('C');    
+    Display_Char('C');
 
     /* check all possible combinations */
     MeasureCap(PROBE_3, PROBE_1, 0);
@@ -2971,6 +3020,50 @@ cycle_start:
   if (Check.Found == COMP_NONE)
   {
     CheckZener();
+  }
+  #endif
+
+  #ifdef UI_PROBES13_RCL
+  /* auto-trigger RCL monitor for R, C or L at probes #1 and #3 */
+  if (Check.Found == COMP_RESISTOR)     /* resistor (or inductor) */
+  {
+    if (Check.Resistors == 1)                /* single resistor */
+    {
+      /* at probes #1 and #3 (shortcut via addition) */
+      if ((Resistors[0].A + Resistors[0].B) == PROBE_3)
+      {
+        Key = KEY_RCL_MONITOR;         /* trigger RCL monitor */
+        goto cycle_action;             /* perform action */
+      }
+    }
+  }
+  else if (Check.Found == COMP_CAPACITOR)    /* capacitor (>= 5 pF)*/
+  {
+    Capacitor_Type       *Cap;          /* pointer to cap */
+    Capacitor_Type       *MaxCap;       /* pointer to largest cap */
+    uint8_t              Counter;       /* loop counter */
+
+    /* find largest cap */
+    Cap = &Caps[0];                /* pointer to first cap */
+    MaxCap = Cap;                  /* also largest at the moment */
+
+    for (Counter = 1; Counter <= 2; Counter++)    /* loop through caps */
+    {
+      Cap++;                       /* next cap */
+
+      /* check if next cap is larger than the currently largest */
+      if (CmpValue(Cap->Value, Cap->Scale, MaxCap->Value, MaxCap->Scale) == 1)
+      {
+        MaxCap = Cap;              /* update pointer for largest cap */
+      }
+    }
+
+    /* check if at probes #1 and #3 (shortcut via addition) */
+    if ((MaxCap->A + MaxCap->B) == PROBE_3)
+    {
+      Key = KEY_RCL_MONITOR;       /* trigger RCL monitor */
+      goto cycle_action;           /* perform action */
+    }
   }
   #endif
 
@@ -3005,7 +3098,7 @@ show_component:
   #endif
 
   #ifdef UI_PROBING_DONE_BEEP
-    /* buzzer: short beep for probing result (probing done) */
+  /* buzzer: short beep for probing result (probing done) */
     #ifdef BUZZER_ACTIVE
     /* active buzzer: short beep (20ms) */
     BUZZER_PORT |= (1 << BUZZER_CTRL);       /* enable: set pin high */
@@ -3121,7 +3214,7 @@ show_component:
     Display_EEString_NL(Cmd_OK_str);    /* send: OK & newline */
     Display_LCD_Only();                 /* switch output back to display */
 
-    /* We don't have to restore the next-line mode since it will be 
+    /* We don't have to restore the next-line mode since it will be
        changed a few lines down anyway. */
   }
   #endif
@@ -3209,7 +3302,7 @@ cycle_control:
   }
   #endif
 
-#if defined (UI_SHORT_CIRCUIT_MENU) || defined (UI_SERIAL_COMMANDS) || defined (UI_MAINMENU_POWERON_BUTTON)
+#if defined (UI_SHORT_CIRCUIT_MENU) || defined (UI_SERIAL_COMMANDS) || defined (UI_MAINMENU_POWERON_BUTTON) || defined (UI_PROBES13_RCL)
 cycle_action:
 #endif
 
@@ -3260,6 +3353,14 @@ cycle_action:
 
     goto cycle_control;            /* re-run cycle control */
   }
+  #ifdef UI_PROBES13_RCL
+  else if (Key == KEY_RCL_MONITOR) /* RCL monitor */
+  {
+    Monitor_RCL();                 /* run RCL monitor */
+    ToolDone();                    /* UI feedback */
+    goto cycle_control;            /* re-run cycle control */
+  }
+  #endif
   else if (Key == KEY_POWER_OFF)   /* power off */
   {
     PowerOff();                    /* power off */

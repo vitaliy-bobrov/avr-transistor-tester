@@ -960,6 +960,14 @@
 
 
 /*
+ *  Skip first probing cycle after power-on when in auto-hold mode.
+ *  - uncomment to enable
+ */
+
+//#define UI_SKIP_FIRST_PROBING
+
+
+/*
  *  Show key hints instead of cursor if available.
  *  - currently only "Menu/Test"
  *  - requires additional keys and display with a sufficient number of
@@ -1265,6 +1273,15 @@
 
 
 /*
+ *  auto-trigger RCL monitor by R, C or L at probes #1 and #3
+ *  - requires RCL monitor (SW_MONITOR_RCL, also SW_INDUCTOR)
+ *  - uncomment to enable
+ */
+
+//#define UI_PROBES13_RCL
+
+
+/*
  *  storage of firmware data (texts, tables etc)
  *  - self-adjustment data is always stored in EEPROM
  *  - fonts and symbols are always stored in Flash memory
@@ -1433,7 +1450,7 @@
  *  - uncomment to enable
  */
 
-//#define R_MULTIOFFSET
+#define R_MULTIOFFSET
 
 
 /*
@@ -1458,7 +1475,7 @@
  *  - uncomment to enable
  */
 
-//#define CAP_MULTIOFFSET
+#define CAP_MULTIOFFSET
 
 
 /*
@@ -1488,7 +1505,7 @@
  *  - Valid values are in the range of 1 - 255.
  */
 
-#define ADC_SAMPLES      30
+#define ADC_SAMPLES      32
 
 
 /*

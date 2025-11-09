@@ -1,6 +1,6 @@
 /* ************************************************************************
  *
- *   automation / remote commands via serial interface 
+ *   automation / remote commands via serial interface
  *
  *   (c) 2018-2024 by Markus Reschke
  *
@@ -60,7 +60,7 @@ uint8_t             FirstFlag;     /* multiple strings in a line */
 
 
 /*
- *  control logic for sending multiple strings in a line 
+ *  control logic for sending multiple strings in a line
  *  - add space before 2nd string and all other following strings
  */
 
@@ -640,7 +640,7 @@ uint8_t Cmd_C(void)
   Capacitor_Type    *C;                 /* pointer to resistor */
 
   if (Check.Found == COMP_CAPACITOR)    /* capacitor */
-  {  
+  {
     C = (Capacitor_Type *)Info.Comp1;        /* get pointer */
 
     if (C)                                   /* valid pointer */
@@ -1089,7 +1089,7 @@ uint8_t Cmd_R_BE(uint8_t Cmd)
       }
       break;
 
-    #ifdef SW_UJT    
+    #ifdef SW_UJT
     case COMP_UJT:            /* UJT */
       if (Cmd == CMD_R_BB)              /* R_BB */
       {
@@ -1172,7 +1172,7 @@ uint8_t Cmd_H_FE_R(void)
     {
       /* can't measure reverse h_FE with flyback diode */
       /* or value might be invalid */
-      Flag = SIGNAL_NA;                 /* signal n/a */      
+      Flag = SIGNAL_NA;                 /* signal n/a */
     }
     else
     {
@@ -1594,7 +1594,7 @@ uint8_t Cmd_V_F_clamp(void)
       if (D)                                 /* valid pointer */
       {
         /* send Vf */
-        Display_Value(D->V_f, -3, 'V');      /* in mV */        
+        Display_Value(D->V_f, -3, 'V');      /* in mV */
       }
     }
     else
@@ -1762,7 +1762,7 @@ uint8_t RunCommand(uint8_t ID)
     case CMD_PROBE:           /* probe component */
       Key = KEY_PROBE;                       /* set virtual key */
       /* OK is returned after probing by main() */
-      Flag = SIGNAL_NONE;                    /* no newline */ 
+      Flag = SIGNAL_NONE;                    /* no newline */
       break;
 
     case CMD_COMP:            /* return component type ID */
@@ -1918,7 +1918,7 @@ uint8_t RunCommand(uint8_t ID)
     case CMD_V_F_CLAMP:       /* return V_f of clamping diode */
       Flag = Cmd_V_F_clamp();                /* run command */
       break;
-    #endif    
+    #endif
 
     default:                  /* unknown/unsupported */
       Flag = SIGNAL_ERR;                     /* signal error */

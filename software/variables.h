@@ -3,7 +3,7 @@
  *   global variables
  *
  *   (c) 2012-2025 by Markus Reschke
- *   based on code from Markus Frejek and Karl-Heinz Kübbeler
+ *   based on code from Markus Frejek and Karl-Heinz Kï¿½bbeler
  *
  * ************************************************************************ */
 
@@ -156,7 +156,7 @@
 
 
   /* firmware */
-  const unsigned char Version_str[] MEM_TYPE = "v1.55m";
+  const unsigned char Version_str[] MEM_TYPE = "v1.56m";
 
 
   /* common terms and texts */
@@ -174,6 +174,8 @@
   const unsigned char V_GT_str[] MEM_TYPE ="V_GT";
   const unsigned char I_CEO_str[] MEM_TYPE = "Iceo";
   const unsigned char Vf_str[] MEM_TYPE = "Vf";
+  const unsigned char Ge_str[] MEM_TYPE = "Ge";
+  const unsigned char Si_str[] MEM_TYPE = "Si";
   const unsigned char DiodeCap_str[] MEM_TYPE = "C";
   const unsigned char Vth_str[] MEM_TYPE = "Vth";
   const unsigned char I_R_str[] MEM_TYPE = "I_R";
@@ -215,7 +217,7 @@
       const unsigned char IR_RCA_str[] MEM_TYPE = "RCA";
       const unsigned char IR_RECS80_str[] MEM_TYPE = "RECS80";
       const unsigned char IR_Sanyo_str[] MEM_TYPE = "Sanyo";
-      const unsigned char IR_uPD1986C_str[] MEM_TYPE = "µPD1986C";
+      const unsigned char IR_uPD1986C_str[] MEM_TYPE = "ï¿½PD1986C";
     #endif
   #endif
 
@@ -326,7 +328,7 @@
   #ifdef UI_SERIAL_COMMANDS
     /* maximum string length: RX_BUFFER_SIZE - 1 */
 
-    /* feedback */ 
+    /* feedback */
     const unsigned char Cmd_ERR_str[] MEM_TYPE = "ERR";
     const unsigned char Cmd_OK_str[] MEM_TYPE = "OK";
     const unsigned char Cmd_NA_str[] MEM_TYPE = "N/A";
@@ -455,7 +457,7 @@
    *  - stored in EEPROM/Flash
    */
 
-  /* unit prefixes: f, p, n, µ, m, 0, k, M (used by value display) */
+  /* unit prefixes: f, p, n, ï¿½, m, 0, k, M (used by value display) */
   const unsigned char Prefix_table[NUM_PREFIXES] MEM_TYPE = {'f', 'p', 'n', LCD_CHAR_MICRO, 'm', 0, 'k', 'M'};
 
   /* voltage based factors for large caps (using Rl) */
@@ -465,10 +467,10 @@
   /* voltage based factors for small caps (using Rh) */
   /* voltages in mV:                                       1000  1050  1100  1150  1200  1250  1300  1350  1400 */
   const uint16_t SmallCap_table[NUM_SMALL_CAP] MEM_TYPE = { 954,  903,  856,  814,  775,  740,  707,  676,  648};
-//const uint16_t SmallCap_table[NUM_SMALL_CAP] MEM_TYPE = {9535, 9026, 8563, 8141, 7753, 7396, 7066, 6761, 6477}; 
+//const uint16_t SmallCap_table[NUM_SMALL_CAP] MEM_TYPE = {9535, 9026, 8563, 8141, 7753, 7396, 7066, 6761, 6477};
 
   #ifdef SW_PWM_SIMPLE
-    /* PWM menu: frequencies */    
+    /* PWM menu: frequencies */
     const uint16_t PWM_Freq_table[NUM_PWM_FREQ] MEM_TYPE = {100, 250, 500, 1000, 2500, 5000, 10000, 25000};
   #endif
 
@@ -491,7 +493,7 @@
 
   #ifdef SW_E6
     /* E6 (in 0.01) */
-    const uint16_t E6_table[NUM_E6] MEM_TYPE = {100, 150, 220, 330, 470, 680};  
+    const uint16_t E6_table[NUM_E6] MEM_TYPE = {100, 150, 220, 330, 470, 680};
   #endif
 
   #ifdef SW_E12
@@ -510,7 +512,7 @@
       100, 102, 105, 107, 110, 113, 115, 118, 121, 124, 127, 130, 133, 137, 140, 143, 147, 150, 154, 158, 162, 165, 169, 174,
       178, 182, 187, 191, 196, 200, 205, 210, 215, 221, 226, 232, 237, 243, 249, 255, 261, 267, 274, 280, 287, 294, 301, 309,
       316, 324, 332, 340, 348, 357, 365, 374, 383, 392, 402, 412, 422, 432, 442, 453, 464, 475, 487, 499, 511, 523, 536, 549,
-      562, 576, 590, 604, 619, 634, 649, 665, 681, 698, 715, 732, 750, 768, 787, 806, 825, 845, 866, 887, 909, 931, 953, 976}; 
+      562, 576, 590, 604, 619, 634, 649, 665, 681, 698, 715, 732, 750, 768, 787, 806, 825, 845, 866, 887, 909, 931, 953, 976};
   #endif
 
   #ifdef FUNC_COLORCODE
@@ -721,7 +723,7 @@
   #endif
 
   #if defined (SW_PWM_SIMPLE) || defined (SW_PWM_PLUS)
-    extern const unsigned char PWM_str[];    
+    extern const unsigned char PWM_str[];
   #endif
 
   #ifdef SW_SQUAREWAVE
@@ -1030,7 +1032,7 @@
    *  - stored in EEPROM/Flash
    */
 
-  /* unit prefixes: p, n, µ, m, 0, k, M (used by value display) */
+  /* unit prefixes: p, n, ï¿½, m, 0, k, M (used by value display) */
   extern const unsigned char Prefix_table[];
 
   /* voltage based factors for large caps (using Rl) */

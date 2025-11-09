@@ -269,12 +269,19 @@ void DischargeCap(uint8_t Probe1, uint8_t Probe2)
   {
     U_1 = ReadU(Probes.Ch_2);      /* get voltage at probe-2 */
 
-    if (U_1 < 400)                 /* below 400mV */
+  if (U_1 < 400)                 /* below 400mV */
+  {
+    ADC_DDR |= Probes.Pin_2;     /* also pull down probe-2 directly */
+    
+    /* Double check discharge */
+    wait10ms();
+    U_1 = ReadU(Probes.Ch_2);    /* verify discharge */
+    if (U_1 > 40)                /* still above 40mV */
     {
-      ADC_DDR |= Probes.Pin_2;     /* also pull down probe-2 directly */
+      /* Try alternative discharge path */
+      R_DDR |= Probes.Rh_2;      /* also pull down via Rh */
     }
-
-    if (U_1 < 40)                  /* discharged < 40mV */
+  }    if (U_1 < 40)                  /* discharged < 40mV */
     {
       n = 0;                       /* end loop */
     }

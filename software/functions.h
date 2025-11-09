@@ -3,7 +3,7 @@
  *   global functions
  *
  *   (c) 2012-2025 by Markus Reschke
- *   based on code from Markus Frejek and Karl-Heinz Kübbeler
+ *   based on code from Markus Frejek and Karl-Heinz Kï¿½bbeler
  *
  * ************************************************************************ */
 
@@ -203,7 +203,7 @@
 
 #ifndef MAX31855_C
 
-  #ifdef HW_MAX31855   
+  #ifdef HW_MAX31855
   extern void MAX31855_BusSetup(void);
   extern void MAX31855_Tool(void);
   #endif
@@ -280,7 +280,7 @@
   extern void Display_NL_EEString(const unsigned char *String);
   #ifdef UI_CENTER_ALIGN
   extern void Display_NL_EEString_Center(const unsigned char *String);
-  #endif  
+  #endif
   extern void Display_NL_EEString_Space(const unsigned char *String);
 
   extern void LCD_ClearLine2(void);
@@ -364,7 +364,7 @@
 
   #ifdef SW_CONTRAST
   extern void ChangeContrast(void);
-  #endif  
+  #endif
 
   #ifdef SW_FONT_TEST
   extern void FontTest(void);
@@ -462,6 +462,10 @@
   #endif
 
   extern int8_t ShortCircuit(uint8_t Mode);
+
+  #ifdef UI_PROBES13_RCL
+  extern void ToolDone(void);
+  #endif
 
   extern void MarkItem(uint8_t Item, uint8_t Selected);
 
@@ -647,7 +651,7 @@
   extern void GetGateThreshold(uint8_t Type);
   extern uint32_t Get_hfe_c(uint8_t Type);
   extern void GetLeakageCurrent(uint8_t Mode);
-
+  extern int8_t ScoreDiodeType(Diode_Type *Diode);
   extern Diode_Type *SearchDiode(uint8_t A, uint8_t C);
   extern void CheckDiode(void);
 

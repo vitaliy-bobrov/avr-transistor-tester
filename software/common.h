@@ -70,6 +70,7 @@
 #define KEY_PROBE             104  /* probe component */
 #define KEY_EXIT              105  /* exit (menu) */
 #define KEY_DEFAULTS          106  /* set defaults (adjustments) */
+#define KEY_RCL_MONITOR       107  /* RCL monitor */
 
 
 /* operation mode/state flags (bitfield) */
@@ -321,6 +322,9 @@
 #define TYPE_NPN              0b00000001     /* NPN */
 #define TYPE_PNP              0b00000010     /* PNP */
 #define TYPE_PARASITIC        0b00000100     /* parasitic BJT */
+#define TYPE_GERMANIUM        0b01000000     /* germanium semiconductor */
+#define TYPE_SILICON          0b10000000     /* silicon semiconductor */
+#define TYPE_MASK_MATERIAL    0b11000000     /* mask for material bits */
 
 
 /* diode types (bitfield) */

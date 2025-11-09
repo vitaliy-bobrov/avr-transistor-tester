@@ -149,6 +149,46 @@ void Display_LastLine(void)
 #endif
 
 
+/*
+ *  display a character as superscript
+ *  - moves cursor up by SUP_OFFSET before rendering
+ *  - restores original position after
+ *  - SUP_OFFSET can be tuned for your display (e.g. 1 line)
+ */
+#define SUP_OFFSET 1
+void Display_SuperscriptChar(unsigned char Char)
+{
+  uint8_t orig_x = UI.CharPos_X;
+  uint8_t orig_y = UI.CharPos_Y;
+  if (orig_y > SUP_OFFSET) {
+    LCD_CharPos(orig_x, orig_y - SUP_OFFSET);
+    Display_Char(Char);
+    LCD_CharPos(orig_x + 1, orig_y); // move to next char position
+  } else {
+    Display_Char(Char); // fallback if at top
+  }
+}
+
+/*
+ *  display a character as subscript
+ *  - moves cursor down by SUB_OFFSET before rendering
+ *  - restores original position after
+ *  - SUB_OFFSET can be tuned for your display (e.g. 1 line)
+ */
+#define SUB_OFFSET 1
+void Display_SubscriptChar(unsigned char Char)
+{
+  uint8_t orig_x = UI.CharPos_X;
+  uint8_t orig_y = UI.CharPos_Y;
+  if ((orig_y + SUB_OFFSET) <= UI.CharMax_Y) {
+    LCD_CharPos(orig_x, orig_y + SUB_OFFSET);
+    Display_Char(Char);
+    LCD_CharPos(orig_x + 1, orig_y); // move to next char position
+  } else {
+    Display_Char(Char); // fallback if at bottom
+  }
+}
+
 
 /*
  *  display a single character
@@ -270,7 +310,7 @@ void Display_EEString_Center(const unsigned char *String)
  *  requires:
  *  - probe/testpin ID (0-2)
  */
- 
+
 void Display_ProbeNumber(uint8_t Probe)
 {
   #ifdef UI_PROBE_COLORS
@@ -936,7 +976,7 @@ void Display_Value(uint32_t Value, int8_t Exponent, unsigned char Unit)
     Value += 5;                       /* for automagic rounding */
     Value = Value / 10;               /* scale down by 10^1 */
     Exponent++;                       /* increase exponent by 1 */
-  } 
+  }
 
 
   /*
@@ -956,7 +996,7 @@ void Display_Value(uint32_t Value, int8_t Exponent, unsigned char Unit)
     if (Offset > 0)                     /* dot required */
     #endif
     {
-      Index++;                          /* upscale prefix */ 
+      Index++;                          /* upscale prefix */
       Offset = 3 - Offset;              /* reverse value (1 or 2) */
     }
 
@@ -1003,7 +1043,7 @@ void Display_Value(uint32_t Value, int8_t Exponent, unsigned char Unit)
     Exponent = -1;                 /* disable dot */
   }
 
-  /* adjust position to match array or disable dot if set to 0 */ 
+  /* adjust position to match array or disable dot if set to 0 */
   Exponent--;
 
   /* display value and add dot if requested */
@@ -1120,7 +1160,7 @@ void Display_EValue(uint16_t Value, int8_t Scale, unsigned char Unit)
    *  0.15M (150k looks much nicer).
    */
 
-  if ((Offset == 1) && (Value < 100))      /* 0.01u and 0.11u */  
+  if ((Offset == 1) && (Value < 100))      /* 0.01u and 0.11u */
   {
     /* scale value to lower 10^3 step */
     Value *= 10;              /* *10 */
@@ -1160,7 +1200,7 @@ void Display_EIA96(uint8_t Index, int8_t Scale)
   /*
    *  value code (index number of value)
    *  - 2 digits
-   *  - prepend 0 for single digit number 
+   *  - prepend 0 for single digit number
    */
 
   if (Index < 10)                  /* single digit */
@@ -1325,7 +1365,7 @@ void Display_FancyProbeNumber(uint8_t Probe, uint8_t Index)
       #endif
     }
     else                                /* normal case */
-    { 
+    {
       Display_ProbeNumber(Probe);            /* display probe number */
     }
   }
@@ -1353,7 +1393,7 @@ void Display_FancySemiPinout(uint8_t Line)
   uint8_t           MaxLine;       /* maximum line number */
   uint8_t           Temp;          /* temp. value */
   #ifdef LCD_COLOR
-  uint16_t          Color;         /* pen color */ 
+  uint16_t          Color;         /* pen color */
   #endif
 
   /* get height values */
@@ -1543,12 +1583,12 @@ void ChangeContrast(void)
   uint8_t          Flag = 1;            /* loop control */
   uint8_t          Contrast;            /* contrast value */
   uint8_t          Max;                 /* contrast maximum */
-  
+
 
   /*
-   *  increase: short key press / right turn 
+   *  increase: short key press / right turn
    *  decrease: long key press / left turn
-   *  done:     two brief key presses          
+   *  done:     two brief key presses
    */
 
   LCD_Clear();
@@ -1697,7 +1737,7 @@ void FontTest(void)
         {
           if (Pos == 1)            /* no char shown */
           {
-            /* end processing loop and signal special case */ 
+            /* end processing loop and signal special case */
             Run = 0;
           }
         }
@@ -1720,7 +1760,7 @@ void FontTest(void)
       if (Run)                     /* no special case */
       {
         Run = 0;                   /* end processing loop */
-        Pos = 1;                   /* request user feedback */   
+        Pos = 1;                   /* request user feedback */
       }
       /* else: skip user feedback */
       #endif
@@ -1734,7 +1774,7 @@ void FontTest(void)
       }
       else                         /* some space left */
       {
-        Run++;                     /* another line */ 
+        Run++;                     /* another line */
       }
     }
 
@@ -1774,7 +1814,7 @@ void SymbolTest(void)
   uint8_t           Pos_X;         /* char X position */
   uint8_t           Pos_Y;         /* char Y position */
   #ifdef LCD_COLOR
-  uint16_t          Color;         /* pen color */ 
+  uint16_t          Color;         /* pen color */
   #endif
 
   /* show info in line #1 */

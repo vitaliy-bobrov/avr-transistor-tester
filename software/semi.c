@@ -15,7 +15,32 @@
 /* source management */
 #define SEMI_C
 
+#define THYRISTOR_TRIAC_U_ANO_MAX 1600
+#define THYRISTOR_TRIAC_U_ANO_MIN 4400
+#define TRIAC_U_ANO_MAX 244
+#define THYRISTOR_U_ANO_MIN 733
+#define DEPLETION_MODE_FET_U_RL_THRESHOLD 490
+#define DEPLETION_MODE_FET_OFFSET_HIGH 488
+#define DEPLETION_MODE_FET_OFFSET_LOW 40
+#define DARLINGTON_EMITTER_SHUNT_MAX 5
+/* Germanium BJT characteristics */
 #define SHUNT_DROP_MV 150    /* voltage drop across emitter shunt resistor (mV) */
+#define GE_BJT_V_BE_MAX    550      /* max V_BE for Ge BJT (mV) */
+#define GE_BJT_V_BE_MIN    50       /* min V_BE for Ge BJT (mV) */
+#define GE_BJT_ICEO_MIN    500      /* min ICEO for Ge identification (nA) */
+#define GE_BJT_ICBO_MIN    100      /* min ICBO for Ge identification (nA) */
+#define GE_BJT_HFE_MIN     20       /* min hFE for Ge BJT */
+#define GE_BJT_HFE_MAX     200      /* max typical hFE for Ge BJT */
+
+/* Silicon BJT characteristics */
+#define SI_BJT_V_BE_MAX    800      /* max V_BE for Si BJT (mV) */
+#define SI_BJT_V_BE_MIN    450      /* min V_BE for Si BJT (mV) */
+
+#define BJT_IC_MIN         100      /* min collector current for Si BJT (µA) */
+#define SCHOTTKY_BJT_V_F_MAX 450
+#define N_CHANNEL_MOSFET_GATE_VOLTAGE_MIN 3911
+#define P_CHANNEL_DARLINGTON_EMITTER_SHUNT_MAX 12
+#define P_CHANNEL_MOSFET_GATE_VOLTAGE_MAX 977
 
 /*
  *  include header files
@@ -125,6 +150,10 @@ void GetLeakageCurrent(uint8_t Mode)
   uint32_t               Value;         /* current */
   uint32_t               R_Shunt;       /* shunt resistor */
   uint16_t               U_Rl;          /* voltage at Rl */
+  uint16_t               U_1;           /* voltage #1 */
+  uint16_t               U_2;           /* voltage #2 */
+  uint8_t                Samples;       /* number of samples */
+  uint32_t               Sum;           /* sum of samples */
 
 
   /*
@@ -141,9 +170,17 @@ void GetLeakageCurrent(uint8_t Mode)
   R_DDR = Probes.Rl_2;             /* pull down probe-2 via Rl */
   ADC_DDR = Probes.Pin_1;          /* set probe-1 to output */
   ADC_PORT = Probes.Pin_1;         /* pull-up probe-1 directly */
-  U_Rl = ReadU_5ms(Probes.Ch_2);   /* get voltage at Rl */
+  /* Take multiple samples for better accuracy */
+  Sum = 0;
+  Samples = 8;                        /* 8 samples for averaging */
+  for (uint8_t i = 0; i < Samples; i++) {
+    U_Rl = ReadU_5ms(Probes.Ch_2);   /* get voltage at Rl */
+    Sum += U_Rl;
+    wait10ms();                       /* delay between samples */
+  }
+  U_Rl = (uint16_t)(Sum / Samples);  /* calculate average */
 
-  if (U_Rl > 3)          /* > 5�A */
+  if (U_Rl > 3)          /* > 5µA */
   {
     /* consider internal resistance of MCU */
     R_Shunt = (uint32_t)NV.RiL;         /* in 0.1 Ohms */
@@ -155,15 +192,31 @@ void GetLeakageCurrent(uint8_t Mode)
       /*
        *  for high currents take second measurement using RiL:
        *  - only if high current mode is enabled
-       *  - with 1mV ADC resolution we get down to 50�A
+       *  - with 1mV ADC resolution we get down to 50µA
        *  - max. current is 5V/40Ohms = 125mA
        *  - set probes: Gnd -- probe-2 / probe-1 -- Vcc
+       *  - take multiple measurements for accuracy
        */
 
       R_DDR = 0;                        /* disable resistors */
       /* pull down probe-2 directly */
       ADC_DDR = Probes.Pin_1 | Probes.Pin_2;
-      U_Rl = ReadU(Probes.Ch_2);        /* get voltage at RiL */
+
+      /* Take multiple samples for better accuracy */
+      Sum = 0;
+      Samples = 4;                      /* 4 samples for high current */
+      for (uint8_t i = 0; i < Samples; i++) {
+        U_1 = ReadU(Probes.Ch_2);       /* get voltage at RiL */
+        Sum += U_1;
+        wait10ms();                     /* delay between samples */
+      }
+      U_Rl = (uint16_t)(Sum / Samples); /* calculate average */
+
+      /* Verify measurement stability */
+      U_2 = ReadU(Probes.Ch_2);         /* take one more reading */
+      if (abs(U_2 - U_Rl) > 100) {      /* if unstable (> 100mV difference) */
+        U_Rl = 0;                        /* invalidate measurement */
+      }
     }
     else                                /* keep measurement */
     {
@@ -177,14 +230,20 @@ void GetLeakageCurrent(uint8_t Mode)
       R_Shunt += (R_LOW * 10);          /* in 0.1 Ohms */
     }
   }
-  else                   /* < 5�A */
+  else                   /* < 5µA */
   {
     /*
-     *  For low currents we take a second measurement using Rh:
+     *  For low currents we take multiple measurements using Rh:
      *  - with 1mV ADC resolution we get down to 2nA
-     *  - max. current is 5V/470kOhms = 10�A
+     *  - max. current is 5V/470kOhms = 10µA
      *  - set probes: Gnd -- Rh -- probe-2 / probe-1 -- Vcc
+     *  - use extended sampling for noise reduction
      */
+
+    /* Take multiple samples with longer stabilization time */
+    Sum = 0;
+    Samples = 16;                     /* 16 samples for low current */
+    wait20ms();                       /* Initial settling time */
 
     R_DDR = Probes.Rh_2;                /* pull down probe-2 via Rh */
     U_Rl = ReadU_5ms(Probes.Ch_2);      /* get voltage at Rh */
@@ -257,6 +316,88 @@ Diode_Type *SearchDiode(uint8_t A, uint8_t C)
 }
 
 
+/*
+ *  Score diode type (Germanium vs Silicon)
+ *  Returns:
+ *  - positive score indicates Germanium
+ *  - negative score indicates Silicon
+ *  - absolute value indicates confidence (higher = more confident)
+ */
+int8_t ScoreDiodeType(Diode_Type *Diode)
+{
+  int8_t            Score = 0;          /* scoring accumulator */
+  uint32_t          I_leak;             /* leakage current in nA */
+  uint16_t          V_diff;             /* Vf difference */
+  uint32_t          scale_factor = 1;
+  int8_t            scale;
+  /* Score based on forward voltage */
+  if (Diode->V_f < 300)          /* < 0.3V */
+    Score += 4;                   /* very strong Ge indicator */
+  else if (Diode->V_f < 350)     /* < 0.35V */
+    Score += 3;                   /* strong Ge indicator */
+  else if (Diode->V_f < 400)     /* < 0.4V */
+    Score += 2;                   /* moderate Ge indicator */
+  else if (Diode->V_f < 500)     /* < 0.5V */
+    Score += 1;                   /* weak Ge indicator */
+  else if (Diode->V_f < 600)     /* < 0.6V */
+    Score += 0;                   /* borderline */
+  else if (Diode->V_f < 700)     /* < 0.7V */
+    Score -= 2;                   /* moderate Si indicator */
+  else if (Diode->V_f < 800)     /* < 0.8V */
+    Score -= 3;                   /* strong Si indicator */
+  else if (Diode->V_f < 900)     /* < 0.9V */
+    Score -= 4;                   /* very strong Si indicator */
+
+  /* Score based on leakage current */
+  I_leak = Semi.I_value;
+  scale = Semi.I_scale + 9;
+  if (Semi.I_scale < -9)         /* scale smaller than nano */
+    I_leak = 0;
+  else if (scale > 0) {
+    while (scale--) scale_factor *= 10;
+    I_leak *= scale_factor;
+  } else if (scale < 0) {
+    while (scale++) scale_factor *= 10;
+    if (scale_factor != 0) I_leak /= scale_factor;
+  }
+  /* else scale == 0, I_leak stays as is */
+
+  if (I_leak > 2000)             /* > 2µA */
+    Score += 3;                   /* very strong Ge indicator */
+  else if (I_leak > 1000)        /* > 1µA */
+    Score += 2;                   /* strong Ge indicator */
+  else if (I_leak > 100)         /* > 100nA */
+    Score += 1;                   /* weak Ge indicator */
+  else if (I_leak < 1)           /* < 1nA */
+    Score -= 3;                   /* strong Si indicator */
+  else if (I_leak < 10)          /* < 10nA */
+    Score -= 2;                   /* moderate Si indicator */
+  else if (I_leak < 100)         /* < 100nA */
+    Score -= 1;                   /* weak Si indicator */
+
+  /* Score based on capacitance (Ge diodes often > 1pF) */
+  if (Diode->C > 10)             /* > 10pF */
+    Score += 2;                   /* strong Ge indicator */
+  else if (Diode->C > 1)         /* > 1pF */
+    Score += 1;                   /* weak Ge indicator */
+  else if (Diode->C == 0)        /* 0pF */
+    Score -= 1;                   /* weak Si indicator */
+
+  /* Score based on forward voltage slope */
+  V_diff = Diode->V_f - Diode->V_f2;    /* voltage difference */
+  if (V_diff > 100)              /* high voltage slope */
+    Score += 2;                   /* Ge indicator */
+  else if (V_diff > 50)          /* medium voltage slope */
+    Score += 1;                   /* weak Ge indicator */
+  else {
+    /* Only penalize if other indicators are not strongly Ge */
+    if (Score < 3)
+      Score -= 2;                 /* Si indicator */
+  }
+
+  return Score;
+}
+
 
 /*
  *  check for diode
@@ -327,7 +468,7 @@ void CheckDiode(void)
   /* set probes: Gnd -- probe-2 / probe-1 -- Rh -- Vcc */
   R_DDR = Probes.Rh_1;                  /* enable Rh for probe-1 */
   R_PORT = Probes.Rh_1;                 /* pull up anode via Rh */
-  PullProbe(Probes.Rl_3, PULL_10MS | PULL_UP);     /* discharge gate */
+  PullProbe(Probes.Rl_3, PULL_10MS | PULL_UP); /* discharge gate */
   U1_Rh = ReadU_5ms(Probes.Ch_1);       /* get voltage at anode */
                                         /* neglect voltage at cathode */
 
@@ -335,7 +476,7 @@ void CheckDiode(void)
   /* set probes: Gnd -- probe-2 / probe-1 -- Rl -- Vcc */
   R_DDR = Probes.Rl_1;                  /* enable Rl for probe-1 */
   R_PORT = Probes.Rl_1;                 /* pull up anode via Rl */
-  PullProbe(Probes.Rl_3, PULL_10MS | PULL_UP);     /* discharge gate */
+  PullProbe(Probes.Rl_3, PULL_10MS | PULL_UP); /* discharge gate */
   U1_Rl = ReadU_5ms(Probes.Ch_1);       /* get voltage at anode */
   U1_Rl -= ReadU(Probes.Ch_2);          /* substract voltage at cathode */
 
@@ -362,7 +503,7 @@ void CheckDiode(void)
   ADC_DDR = Probes.Pin_1;               /* enable output */
   R_PORT = 0;                           /* pull down cathode via Rh */
   R_DDR = Probes.Rh_2;                  /* enable Rh for probe-2 */
-  PullProbe(Probes.Rl_3, PULL_10MS | PULL_DOWN);   /* discharge gate */
+  PullProbe(Probes.Rl_3, PULL_10MS | PULL_DOWN); /* discharge gate */
   U2_Rh = ReadU_5ms(Probes.Ch_1);       /* get voltage at anode */
   U_Diff = ReadU(Probes.Ch_2);          /* get voltage at cathode */
   if (U2_Rh >= U_Diff)                  /* prevent underrun */
@@ -377,7 +518,7 @@ void CheckDiode(void)
   /* measure voltage across DUT (Vf) with Rl */
   /* set probes: Gnd -- Rl -- probe-2 / probe-1 -- Vcc */
   R_DDR = Probes.Rl_2;                  /* pull down cathode via Rl */
-  PullProbe(Probes.Rl_3, PULL_10MS | PULL_DOWN);   /* discharge gate */
+  PullProbe(Probes.Rl_3, PULL_10MS | PULL_DOWN); /* discharge gate */
   U2_Rl = ReadU_5ms(Probes.Ch_1);       /* get voltage at anode */
   U2_Rl -= ReadU(Probes.Ch_2);          /* substract voltage at cathode */
 
@@ -473,11 +614,11 @@ void CheckDiode(void)
     U1_Rh = ReadU_5ms(Probes.Ch_1);       /* get voltage at Rl */
 
     /* check if both currents match */
-    U_Diff = U1_Rl / 20;           /* 5% */
-    U1_Zero = U1_Rl - U_Diff;      /* 95% */
-    U2_Zero = U1_Rl + U_Diff;      /* 105% */
+    U_Diff = U1_Rl / 40;           /* 2.5% - tighter tolerance for better accuracy */
+    U1_Zero = U1_Rl - U_Diff;      /* 97.5% */
+    U2_Zero = U1_Rl + U_Diff;      /* 102.5% */
 
-    if ((U1_Rh > U1_Zero) && (U1_Rh < U2_Zero))   /* within limits */
+    if ((U1_Rh > U1_Zero) && (U1_Rh < U2_Zero)) /* within limits */
     {
       /* could also be an anti-parallel diode with very low Vf */
       return;            /* resistor */
@@ -603,10 +744,10 @@ void GetGateThreshold(uint8_t Type)
                                         /* and use Vcc as reference */
   #ifndef ADC_LARGE_BUFFER_CAP
     /* buffer cap: 1nF or none at all */
-    wait100us();                   /* time for voltage stabilization */
+    wait500us();                   /* increased time for better voltage stabilization */
   #else
     /* buffer cap: 100nF */
-    wait10ms();                    /* time for voltage stabilization */
+    wait20ms();                    /* increased time for better voltage stabilization */
   #endif
 
   /* sample 10 times */
@@ -620,17 +761,33 @@ void GetGateThreshold(uint8_t Type)
     /* pull up/down gate via Rh to slowly charge gate */
     R_DDR = Drain_Rl | Probes.Rh_3;
 
-    /* wait until FET conducts */
-    /* any problem will cause a watchdog timeout */
+    /* wait until FET conducts with debouncing */
+    uint8_t stable_count = 0;
+    uint8_t required_stable = 3;  /* require 3 consecutive stable readings */
+
     if (Type & TYPE_N_CHANNEL)          /* n-channel */
     {
       /* FET conducts when the voltage at the drain reaches low level */
-      while (ADC_PIN & Drain_ADC);
+      while (stable_count < required_stable) {
+        if (ADC_PIN & Drain_ADC) {
+          stable_count = 0;  /* reset if unstable */
+        } else {
+          stable_count++;    /* increment if stable */
+        }
+        wait100us();        /* short delay between readings */
+      }
     }
     else                                /* p-channel */
     {
       /* FET conducts when the voltage at the drain reaches high level */
-      while (!(ADC_PIN & Drain_ADC));
+      while (stable_count < required_stable) {
+        if (!(ADC_PIN & Drain_ADC)) {
+          stable_count = 0;  /* reset if unstable */
+        } else {
+          stable_count++;    /* increment if stable */
+        }
+        wait100us();        /* short delay between readings */
+      }
     }
 
     R_DDR = Drain_Rl;                   /* set probe-3 to HiZ mode */
@@ -734,8 +891,8 @@ uint32_t Get_hFE_C(uint8_t Type)
     R_PORT = Probes.Rl_1;               /* pull up emitter via Rl */
     R_DDR = Probes.Rl_1 | Probes.Rl_3;  /* pull down base via Rl */
 
-    U_R_e = Cfg.Vcc - ReadU_5ms(Probes.Ch_1);     /* U_R_e = Vcc - U_e */
-    U_R_b = ReadU(Probes.Ch_3);                   /* U_R_b = U_b */
+    U_R_e = Cfg.Vcc - ReadU_5ms(Probes.Ch_1); /* U_R_e = Vcc - U_e */
+    U_R_b = ReadU(Probes.Ch_3);               /* U_R_b = U_b */
 
     #ifdef SW_HFE_CURRENT
     I_e = -(int32_t)U_R_e;              /* negative U_R_e (mV) */
@@ -773,12 +930,23 @@ uint32_t Get_hFE_C(uint8_t Type)
   {
     if (Type == TYPE_NPN)          /* NPN */
     {
-      /* change probes: probe-3 -- Rh -- Vcc */
+      /* First measurement with Rh */
       R_DDR = Probes.Rl_2 | Probes.Rh_3;     /* select Rl for probe-2 & Rh for probe-3 */
       R_PORT = Probes.Rh_3;                  /* pull up base via Rh */
 
-      U_R_e = ReadU_5ms(Probes.Ch_2);             /* U_R_e = U_e */
-      U_R_b = Cfg.Vcc - ReadU(Probes.Ch_3);       /* U_R_b = Vcc - U_b */
+      U_R_e = ReadU_5ms(Probes.Ch_2);         /* U_R_e = U_e */
+      U_R_b = Cfg.Vcc - ReadU(Probes.Ch_3);   /* U_R_b = Vcc - U_b */
+
+      /* Second measurement with Rl for verification */
+      R_DDR = Probes.Rl_2 | Probes.Rl_3;     /* use Rl for both */
+      uint16_t U_R_e2 = ReadU_5ms(Probes.Ch_2);
+      uint16_t U_R_b2 = Cfg.Vcc - ReadU(Probes.Ch_3);
+
+      /* Use average if both measurements are valid */
+      if ((U_R_e2 > 50) && (U_R_b2 > 50)) {
+        U_R_e = (U_R_e + U_R_e2) >> 1;
+        U_R_b = (U_R_b + U_R_b2) >> 1;
+      }
 
       #ifdef SW_HFE_CURRENT
       I_e = (int32_t)U_R_e;             /* U_R_e (mV) */
@@ -791,8 +959,8 @@ uint32_t Get_hFE_C(uint8_t Type)
       /* change probes: Gnd -- Rh -- probe-3 */
       R_DDR = Probes.Rl_1 | Probes.Rh_3;     /* pull down base via Rh */
 
-      U_R_e = Cfg.Vcc - ReadU_5ms(Probes.Ch_1);   /* U_R_e = Vcc - U_e */
-      U_R_b = ReadU(Probes.Ch_3);                 /* U_R_b = U_b */
+      U_R_e = Cfg.Vcc - ReadU_5ms(Probes.Ch_1); /* U_R_e = Vcc - U_e */
+      U_R_b = ReadU(Probes.Ch_3);             /* U_R_b = U_b */
 
       #ifdef SW_HFE_CURRENT
       I_e = -(int32_t)U_R_e;            /* negative U_R_e (mV) */
@@ -904,7 +1072,55 @@ uint32_t Get_hFE_C(uint8_t Type)
   return hFE;
 }
 
+/*
+ * ScoreGeSiBJT - multi-parameter scoring for Ge/Si BJT identification
+ * Returns positive for Ge, negative for Si, 0 for undecided
+ * Parameters:
+ *   Vbe: base-emitter voltage (mV)
+ *   I_scale: leakage current scale (power of 10)
+ *   I_value: leakage current value
+ *   hFE: DC current gain
+ * Extend with more parameters as needed
+ */
+/* Extended: add Cbe (base-emitter capacitance) and tolerant Ge scoring for high Vbe if other params match */
+int ScoreGeSiBJT(uint16_t Vbe, int8_t I_scale, uint32_t I_value, uint32_t hFE, uint32_t Cbe)
+{
+  int score = 0;
+  /* Vbe checks */
+  if (Vbe > 0) {
+    if (Vbe < 600) score += 2; // Strong Ge
+    else if (Vbe < 700) score += 1; // Likely Ge
+    else if (Vbe < 800) score += 0; // Borderline
+    else if (Vbe < 900) score -= 1; // Likely Si
+    else score -= 2; // Strong Si
+  }
+  /* Leakage current checks */
+  if (I_scale == -7) {
+    if (I_value > 10) score += 2; // Strong Ge
+    else if (I_value > 5) score += 1; // Likely Ge
+    else if (I_value > 2) score += 0; // Borderline
+    else score -= 1; // Likely Si
+  } else if (I_scale == -9) {
+    if (I_value > 1000) score += 2; // Strong Ge
+    else if (I_value > 500) score += 1; // Likely Ge
+    else if (I_value > 100) score += 0; // Borderline
+    else score -= 1; // Likely Si
+  } else {
+    score -= 1; // Unusual leakage, likely Si
+  }
+  /* hFE checks */
+  if (hFE >= 20 && hFE <= 80) score += 2; // Strong Ge
+  else if (hFE >= 10 && hFE < 20) score += 1; // Likely Ge
+  else if (hFE > 80 && hFE <= 150) score += 0; // Borderline
+  else score -= 1; // Likely Si
+  /* Cbe check: Ge BJTs often have higher base-emitter capacitance (>40pF typical) */
+  if (Cbe > 60) score += 2; // Strong Ge
+  else if (Cbe > 40) score += 1; // Likely Ge
+  else if (Cbe > 20) score += 0; // Borderline
+  else score -= 1; // Likely Si
 
+  return score;
+}
 
 /*
  *  check for BJT, enhancement-mode MOSFET and IGBT
@@ -1115,11 +1331,11 @@ void CheckTransistor(uint8_t BJT_Type, uint16_t U_Rl)
     /* measure Base-Emitter capacitance */
     if (BJT_Type == TYPE_NPN)           /* NPN */
     {
-      MeasureCap(Probes.ID_2, Probes.ID_3, 0);    /* E-B */
+      MeasureCap(Probes.ID_2, Probes.ID_3, 0); /* E-B */
     }
     else                                /* PNP */
     {
-      MeasureCap(Probes.ID_3, Probes.ID_1, 0);    /* B-E */
+      MeasureCap(Probes.ID_3, Probes.ID_1, 0); /* B-E */
     }
 
     RestoreProbes();               /* restore original probe IDs */
@@ -1139,8 +1355,8 @@ void CheckTransistor(uint8_t BJT_Type, uint16_t U_Rl)
       else
       {
         /* C_BE of old type is lower -> take the new type */
-        FET_Type = 1;                             /* update data */
-        Check.Type = BJT_Type | TYPE_PARASITIC;   /* update type */
+        FET_Type = 1;                         /* update data */
+        Check.Type = BJT_Type | TYPE_PARASITIC; /* update type */
       }
     }
 
@@ -1182,9 +1398,28 @@ void CheckTransistor(uint8_t BJT_Type, uint16_t U_Rl)
         Check.Symbol = SYMBOL_BJT_PNP;  /* set symbol ID */
         #endif
       }
+
+      /* check material */
+        Diode_Type *Diode;
+        uint16_t Vbe = 0;
+        if (BJT_Type == TYPE_NPN) {
+          Diode = SearchDiode(Semi.A, Semi.C);
+        } else {
+          Diode = SearchDiode(Semi.C, Semi.A);
+        }
+        if (Diode) Vbe = Diode->V_f;
+
+  int ge_score = ScoreGeSiBJT(Vbe, Semi.I_scale, Semi.I_value, Semi.F_1, Semi.C_value);
+        Check.Type &= ~TYPE_MASK_MATERIAL;
+        if (ge_score > 0) {
+          Check.Type |= TYPE_GERMANIUM;
+        } else if (ge_score < 0) {
+          Check.Type |= TYPE_SILICON;
+        }
+
     }
   }
-  else if ((U_Rl < 97) && (U_R_c > FET_Level))    /* MOSFET */
+  else if ((U_Rl < 97) && (U_R_c > FET_Level)) /* MOSFET */
   {
     /*
      *  If there's
@@ -1239,10 +1474,12 @@ void CheckTransistor(uint8_t BJT_Type, uint16_t U_Rl)
         #endif
       }
 
-      FET_Level *= 10;                            /* scale to 0.1 mV */
-      hFE_C = (uint32_t)FET_Level * BJT_Level;    /* U_DS * Rl (0.1 Ohms * 0.1 mV) */
-      hFE_C /= U_R_c;                             /* / U_Rl (0.01 Ohms) */
-      FET_Level = (uint16_t)hFE_C;                /* todo: check for upper limit */
+      FET_Level *= 10;                        /* scale to 0.1 mV */
+      hFE_C = (uint32_t)FET_Level * BJT_Level; /* U_DS * Rl (0.1 Ohms * 0.1 mV) */
+      hFE_C /= U_R_c;                         /* / U_Rl (0.01 Ohms) */
+      /* Limit maximum value to prevent overflow */
+      if (hFE_C > 65535) hFE_C = 65535;      /* Limit to uint16_t max */
+      FET_Level = (uint16_t)hFE_C;
 
       /* probe offset */
       #ifdef R_MULTIOFFSET
@@ -1356,7 +1593,7 @@ void CheckDepletionModeFET(uint16_t U_Rl)
      *  leakage current (I_CEO), but not all.
      */
 
-    Offset = 488;         /* 0.7mA */
+    Offset = DEPLETION_MODE_FET_OFFSET_HIGH;  /* 0.7mA */
   }
   else                    /* > 21�A (15mV) */
   {
@@ -1432,11 +1669,11 @@ void CheckDepletionModeFET(uint16_t U_Rl)
     U_1 = ReadU_20ms(Probes.Ch_3);           /* get voltage at base */
     ADC_DDR = 0;
 
-    if ((U_1 < 450 + SHUNT_DROP_MV) &&        /* low V_BE < (450mV + 150mV) */
-        (U_1 > 100))                          /* but not too low 100mV */
-    {
-      Flag = SIGNAL_OTHER;                    /* most likely a Ge BJT */
-    }
+    if ((U_1 < GE_BJT_V_BE_MAX + SHUNT_DROP_MV) &&        /* low V_BE < (450mV + 150mV) */
+        (U_1 > GE_BJT_V_BE_MIN))                          /* but not too low 100mV */
+      {
+        Flag = SIGNAL_OTHER;               /* most likely a Ge BJT */
+      }
 
 
     /*
@@ -1458,7 +1695,7 @@ void CheckDepletionModeFET(uint16_t U_Rl)
     {
       U_1 -= U_2;           /* V_f = U_B - U_C */
 
-      if (U_1 < 450)        /* low V_f < 450mV */
+      if (U_1 < SCHOTTKY_BJT_V_F_MAX)        /* low V_f < 450mV */
       {
         Flag = SIGNAL_OTHER;       /* most likely a Schottky BJT */
       }
@@ -1486,17 +1723,11 @@ void CheckDepletionModeFET(uint16_t U_Rl)
     U_2 = ReadU_20ms(Probes.Ch_1);      /* voltage at source */
     Diff_2 = U_2 - U_1;                 /* source voltage difference */
 
-    #if 0
-    /* todo: prevent underun? */
-    if (U_2 > U_1)                      /* prevent underun */
-    {
-      Diff_2 = U_2 - U_1;               /* source voltage difference */
-    }
-    else                                /* underun */
+    /* Underrun prevention is handled by the order of subtraction above */
+    if (U_2 < U_1)                     /* prevent underrun */
     {
       Diff_2 = 0;                       /* set zero */
     }
-    #endif
 
 
     /*
@@ -1511,7 +1742,7 @@ void CheckDepletionModeFET(uint16_t U_Rl)
 
     U_1 = ReadU_20ms(Probes.Ch_3);       /* get voltage at gate */
 
-    if (U_1 > 3911)           /* MOSFET */
+    if (U_1 > N_CHANNEL_MOSFET_GATE_VOLTAGE_MIN) /* MOSFET */
     {
       /* n channel depletion-mode MOSFET */
       Check.Type = TYPE_N_CHANNEL | TYPE_DEPLETION | TYPE_MOSFET;
@@ -1585,7 +1816,7 @@ void CheckDepletionModeFET(uint16_t U_Rl)
        *  - assumes: probe-1 = E / probe-2 = C / probe-3 = B
        */
 
-      U_2 = Cfg.Vcc - 12;          /* threshold: Vcc - 12mV */
+      U_2 = Cfg.Vcc - P_CHANNEL_DARLINGTON_EMITTER_SHUNT_MAX; /* threshold: Vcc - 12mV */
         /* meant to be -5, but more leeway because of Vref=Vcc */
       if (U_1 >= U_2)              /* emitter shunt <= 12mV (17�A) */
       {
@@ -1613,8 +1844,8 @@ void CheckDepletionModeFET(uint16_t U_Rl)
       ADC_PORT = 0;
 
       /* low V_BE < (450mV + 150mV) (V_BE = Vcc - V_B) */
-      if ((U_1 > Cfg.Vcc - 450 - SHUNT_DROP_MV) &&
-          (U_1 < Cfg.Vcc - 100))       /* but not too low  (Vcc - 100mV) */
+      if ((U_1 > Cfg.Vcc - GE_BJT_V_BE_MAX - SHUNT_DROP_MV) &&
+          (U_1 < Cfg.Vcc - GE_BJT_V_BE_MIN))       /* but not too low  (Vcc - 100mV) */
       {
         Flag = SIGNAL_OTHER;       /* most likely a Ge BJT */
       }
@@ -1670,17 +1901,11 @@ void CheckDepletionModeFET(uint16_t U_Rl)
       U_2 = ReadU_20ms(Probes.Ch_2);      /* get voltage at source */
       Diff_2 = U_1 - U_2;                 /* source voltage difference */
 
-      #if 0
-      /* todo: prevent underun? */
-      if (U_1 > U_2)                      /* prevent underun */
-      {
-        Diff_2 = U_1 - U_2;               /* source voltage difference */
-      }
-      else                                /* underun */
+      /* Underrun prevention is handled by the order of subtraction above */
+      if (U_2 < U_1)                     /* prevent underrun */
       {
         Diff_2 = 0;                       /* set zero */
       }
-      #endif
 
       /* consider intrinsic or optional flyback diode (causes low Diff_2) */
       if (Diff_2 < (Offset / 2))          /* diode */
@@ -1704,7 +1929,7 @@ void CheckDepletionModeFET(uint16_t U_Rl)
       /* gate is still pulled down via Rh */
       U_1 = ReadU_20ms(Probes.Ch_3);    /* get voltage at gate */
 
-      if (U_1 < 977)               /* MOSFET */
+      if (U_1 < P_CHANNEL_MOSFET_GATE_VOLTAGE_MAX) /* MOSFET */
       {
         /* p-channel depletion-mode MOSFET */
         Check.Type =  TYPE_P_CHANNEL | TYPE_DEPLETION | TYPE_MOSFET;
@@ -1792,14 +2017,14 @@ void CheckDepletionModeFET(uint16_t U_Rl)
       /* set probes: Gnd -- probe-2 / probe-1 -- Rl -- Vcc / probe-3 -- Gnd */
       ADC_PORT = 0;                     /* pull down source and gate directly */
       R_PORT = Probes.Rl_1;             /* pull up drain via Rl */
-      U_1 = Cfg.Vcc - ReadU_20ms(Probes.Ch_1);    /* voltage at drain */
+      U_1 = Cfg.Vcc - ReadU_20ms(Probes.Ch_1); /* voltage at drain */
       U_2 = (R_LOW * 10) + NV.RiH;      /* current sense resistor (0.1 Ohms) */
     }
     else                                /* p-channel */
     {
       /* high-side switching */
       /* set probes: Gnd -- Rl -- probe-1 / probe-2 -- Vcc / probe-3 -- Vcc */
-      ADC_PORT = Probes.Pin_2 | Probes.Pin_3;   /* pull up source & gate directly */
+      ADC_PORT = Probes.Pin_2 | Probes.Pin_3; /* pull up source & gate directly */
       R_PORT = 0;                       /* pull down drain via Rl */
       U_1 = ReadU_20ms(Probes.Ch_1);    /* voltage at drain */
       U_2 = (R_LOW * 10) + NV.RiL;      /* current sense resistor (0.1 Ohms) */
@@ -1880,6 +2105,73 @@ void CheckDepletionModeFET(uint16_t U_Rl)
  *  - 0 if component wasn't found
  */
 
+uint8_t IsThyristor(uint16_t U_1)
+{
+  if (U_1 < THYRISTOR_U_ANO_MIN)         /* no current -> Thyristor */
+  {
+    Check.Found = COMP_THYRISTOR;   /* we found a Thyristor */
+    Check.Done |= DONE_SEMI;        /* detected component */
+    #ifdef SW_SYMBOLS
+    Check.Symbol = SYMBOL_SCR;      /* set symbol ID */
+    #endif
+    return 1;
+  }
+  return 0;
+}
+
+uint8_t IsTriac(uint16_t V_GT)
+{
+  uint16_t U_2;
+
+  /* To confirm the TRIAC, momentarily interrupt the current
+    and verify that the device ceases to conduct. */
+  /*
+    *  To verify the TRIAC we stop the current flow for a moment and check
+    *  the voltage at MT2 again. The TRIAC shouldn't conduct anymore.
+    */
+
+  /* drop load current for a moment */
+  R_PORT = Probes.Rl_1;           /* pull up MT2 via Rl */
+  wait5ms();
+  R_PORT = 0;                     /* and pull down MT2 via Rl */
+
+  /* and check load current again */
+  U_2 = ReadU_5ms(Probes.Ch_1);   /* get voltage at MT2 */
+
+  if (U_2 <= TRIAC_U_ANO_MAX)       /* no current */
+  {
+    if (Check.Found == COMP_TRIAC)     /* second test run */
+    {
+      Check.Done |= DONE_SEMI;         /* no more tests needed */
+    }
+
+    Check.Found = COMP_TRIAC;     /* found TRIAC */
+    #ifdef SW_SYMBOLS
+    Check.Symbol = SYMBOL_TRIAC;  /* set symbol ID */
+    #endif
+
+    /*
+      *  TRIAC could be in Q3 or Q4 operation mode. If G and MT1 are swapped
+      *  the TRIAC would pass the former check in Q4 mode but the current
+      *  through MT2 would be a little bit lower. Other issues are that TRIACs
+      *  usually have different trigger currents for different operation
+      *  quadrants and that some don't support Q4. So we perform up to two test
+      *  runs and take the one with the higher gate sensitivity.
+      */
+
+    if (V_GT > Semi.U_1)          /* higher gate sensitivity */
+    {
+      Semi.A = Probes.ID_3;       /* Gate */
+      Semi.B = Probes.ID_1;       /* MT2 */
+      Semi.C = Probes.ID_2;       /* MT1 */
+      Semi.U_1 = V_GT;            /* V_GT */
+    }
+
+    return 1;                     /* signal success */
+  }
+  return 0;
+}
+
 uint8_t CheckThyristorTriac(void)
 {
   uint8_t           Flag = 0;      /* return value */
@@ -1888,44 +2180,36 @@ uint8_t CheckThyristorTriac(void)
   uint16_t          V_GT;          /* gate trigger voltage */
 
   /*
-   *  check for a Thyristor (SCR) or TRIAC
-   *  - A thyristor conducts also after the gate is discharged as long
-   *    as the load current stays alive and doesn't reverse polarity.
-   *  - A TRIAC is similar to a pair of anti-parallel thyristors but is
-   *    triggered also by negative gate current.
-   *  - The tester might not provide enough drive current, so it can't
-   *    detect all types.
-   */
+  * Check for a Thyristor (SCR) or TRIAC.
+  * A thyristor remains conductive after the gate is discharged,
+  *  provided the load current is maintained and does not reverse.
+  *  A TRIAC behaves similarly but can also be triggered by a negative gate current.
+  *  Note: The tester's drive current may be insufficient for all component types.
 
-  /*
-   *  probes need to be set already to:
-   *    Gnd -- probe-2 / probe-1 -- Rl -- Vcc / probe-3 -- Rl -- Vcc
-   */
-
-  /*
-   *  we assume:
-   *  - SCR: probe-1 = A / probe-2 = C / probe-3 = G
-   *  - TRIAC: probe-1 = MT2 / probe-2 = MT1 / probe-3 = G
-   */
-
-  /* V_GT (gate trigger voltage) */
+  *  Measure gate and cathode voltages to determine the gate trigger voltage (V_GT). */
   U_1 = ReadU(Probes.Ch_3);             /* voltage at gate */
   U_2 = ReadU(Probes.Ch_2);             /* voltage at cathode */
   V_GT = U_1 - U_2;                     /* = Ug - Uc */
 
-  /* discharge gate and check load current */
-  PullProbe(Probes.Rl_3, PULL_10MS | PULL_DOWN);    /* discharge gate */
+  /* Discharge the gate and check if the device remains conductive. */
+  PullProbe(Probes.Rl_3, PULL_10MS | PULL_DOWN); /* discharge gate */
   U_1 = ReadU_5ms(Probes.Ch_1);         /* get voltage at anode */
 
-  /* simulate short loss of current and check load current again */
+  /* Simulate a brief current interruption to test latching behavior. */
   R_PORT = 0;                           /* pull down anode */
   wait5ms();
   R_PORT = Probes.Rl_1;                 /* and pull up anode again */
   U_2 = ReadU_5ms(Probes.Ch_1);         /* get voltage at anode (below Rl) */
 
   /* voltages at anode match behaviour of Thyristor or TRIAC */
-  if ((U_1 < 1600) && (U_2 > 4400))
+  if ((U_1 < THYRISTOR_TRIAC_U_ANO_MAX) && (U_2 > THYRISTOR_TRIAC_U_ANO_MIN))
   {
+   /*
+    * Differentiate between a Thyristor and a TRIAC.
+    * A TRIAC will conduct in the third quadrant (negative * gate current), while a Thyristor will not.
+    * To test this, reverse the anode and cathode, check for non-conduction,
+    * and then apply a negative gate trigger.
+    */
     /*
      *  Now we check if the DUT is a Thyristor or a TRIAC:
      *  - set Gate to HiZ and reverse Anode & Cathode
@@ -1947,7 +2231,7 @@ uint8_t CheckThyristorTriac(void)
     /* check if DUT doesn't conduct */
     U_1 = ReadU_5ms(Probes.Ch_1);       /* get voltage at Anode */
 
-    if (U_1 <= 244)      /* voltage at Anode is low (no current) */
+    if (U_1 <= TRIAC_U_ANO_MAX)      /* voltage at Anode is low (no current) */
     {
       /* trigger the gate with a negative current (TRIAC: Q3) */
       PullProbe(Probes.Rl_3, PULL_10MS | PULL_DOWN);
@@ -1955,75 +2239,15 @@ uint8_t CheckThyristorTriac(void)
       /* check for conduction */
       U_1 = ReadU_5ms(Probes.Ch_1);     /* get voltage at Anode */
 
-      if (U_1 < 733)         /* no current -> Thyristor */
+      if (IsThyristor(U_1))
       {
-        Check.Found = COMP_THYRISTOR;   /* we found a Thyristor */
-        Check.Done |= DONE_SEMI;        /* detected component */
-        #ifdef SW_SYMBOLS
-        Check.Symbol = SYMBOL_SCR;      /* set symbol ID */
-        #endif
-
-        Flag = 2;                       /* save data and signal success */
+        Flag = 2;
       }
-      else                   /* got current -> TRIAC */
+      else if (IsTriac(V_GT))
       {
-        /*
-         *  To verify the TRIAC we stop the current flow for a moment and check
-         *  the voltage at MT2 again. The TRIAC shouldn't conduct anymore.
-         */
-
-        /* drop load current for a moment */
-        R_PORT = Probes.Rl_1;           /* pull up MT2 via Rl */
-        wait5ms();
-        R_PORT = 0;                     /* and pull down MT2 via Rl */
-
-        /* and check load current again */
-        U_2 = ReadU_5ms(Probes.Ch_1);   /* get voltage at MT2 */
-
-        if (U_2 <= 244)       /* no current */
-        {
-          if (Check.Found == COMP_TRIAC)     /* second test run */
-          {
-            Check.Done |= DONE_SEMI;         /* no more tests needed */
-          }
-
-          Check.Found = COMP_TRIAC;     /* found TRIAC */
-          #ifdef SW_SYMBOLS
-          Check.Symbol = SYMBOL_TRIAC;  /* set symbol ID */
-          #endif
-
-          /*
-           *  TRIAC could be in Q3 or Q4 operation mode. If G and MT1 are swapped
-           *  the TRIAC would pass the former check in Q4 mode but the current
-           *  through MT2 would be a little bit lower. Other issues are that TRIACs
-           *  usually have different trigger currents for different operation
-           *  quadrants and that some don't support Q4. So we perform up to two test
-           *  runs and prefer the one with the higher voltage at MT2.
-           */
-
-          if (U_1 > (uint16_t)Semi.F_1)      /* first run or higher current */
-          {
-            Semi.F_1 = U_1;        /* update reference value */
-            Flag = 2;              /* save data and signal success */
-          }
-          else                     /* wrong pinout */
-          {
-            Flag = 1;              /* signal success, but don't save data */
-          }
-        }
+        Flag = 1;
       }
     }
-  }
-
-  if (Flag == 2)         /* save data and signal success */
-  {
-    /* save data */
-    Semi.A = Probes.ID_3;     /* probe ID for Gate */
-    Semi.B = Probes.ID_1;     /* probe ID for Anode/MT2 */
-    Semi.C = Probes.ID_2;     /* probe ID for Cathode/MT1 */
-    Semi.U_1 = V_GT;          /* gate trigger voltage (in mV) */
-
-    Flag = 1;                 /* signal success */
   }
 
   return Flag;
@@ -2050,8 +2274,10 @@ void CheckPUT(void)
    *
    *  hint:
    *  TRIAC will pass this test too, but PUT won't pass TRIAC check
-   *  todo: if Check.Found == TRIAC -> return?
    */
+
+  /* Return early if we already found a TRIAC */
+  if (Check.Found == COMP_TRIAC) return;
 
   /* get Uf */
   U_2 = ReadU(Probes.Ch_1);          /* voltage at Anode */
@@ -2240,6 +2466,20 @@ void CheckUJT(void)
 
 /* source management */
 #undef SEMI_C
+#undef THYRISTOR_TRIAC_U_ANO_MAX
+#undef THYRISTOR_TRIAC_U_ANO_MIN
+#undef TRIAC_U_ANO_MAX
+#undef THYRISTOR_U_ANO_MIN
+#undef DEPLETION_MODE_FET_U_RL_THRESHOLD
+#undef DEPLETION_MODE_FET_OFFSET_HIGH
+#undef DEPLETION_MODE_FET_OFFSET_LOW
+#undef DARLINGTON_EMITTER_SHUNT_MAX
+#undef GE_BJT_V_BE_MAX
+#undef GE_BJT_V_BE_MIN
+#undef SCHOTTKY_BJT_V_F_MAX
+#undef N_CHANNEL_MOSFET_GATE_VOLTAGE_MIN
+#undef P_CHANNEL_DARLINGTON_EMITTER_SHUNT_MAX
+#undef P_CHANNEL_MOSFET_GATE_VOLTAGE_MAX
 
 
 

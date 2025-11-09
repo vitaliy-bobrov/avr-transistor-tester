@@ -71,7 +71,7 @@ Semi                0x1f              main.o
 Y_Start             0x2               ILI9341.o
 X_Start             0x2               ILI9341.o
 Probes              0x12              main.o
-NV                  0xb               main.o
+NV                  0x11              main.o
 Inductor            0x5               main.o
 
 There are no discarded input sections
@@ -245,7 +245,7 @@ END GROUP
 .rela.plt
  *(.rela.plt)
 
-.text           0x00000000     0xb1cc
+.text           0x00000000     0xb9be
  *(.vectors)
  .vectors       0x00000000       0x70 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr5/crtatmega644.o
                 0x00000000                __vectors
@@ -334,7 +334,7 @@ END GROUP
                 0x00002504                __vector_16
                 0x00002504                __vector_18
                 0x00002504                __vector_22
- .text          0x00002508     0x163c main.o
+ .text          0x00002508     0x16a0 main.o
                 0x00002508                Get_SemiPinDesignator
                 0x0000252a                Show_SemiPinout
                 0x00002556                Show_SimplePinout
@@ -350,536 +350,543 @@ END GROUP
                 0x00002fc6                Show_Diode_Cap
                 0x00002ffe                Show_SemiFlybackDiode
                 0x00003016                Show_Diode
-                0x0000334a                Show_BJT
-                0x000035f8                Show_FET_Extras
-                0x0000373c                Show_FET_Channel
-                0x0000375c                Show_FET_Mode
-                0x00003778                Show_FET
-                0x0000381a                Show_IGBT
-                0x00003838                Show_ThyristorTriac
-                0x000038a0                Show_PUT
-                0x0000391c                Show_UJT
-                0x0000395c                CheckVoltageRefs
-                0x000039f6                PowerOff
-                0x00003a46                ShowBattery
-                0x00003ae0                CheckBattery
- .text          0x00003b44      0xb62 user.o
-                0x00003b44                NumberOfDigits
-                0x00003bba                CmpValue
-                0x00003cfe                RescaleValue
-                0x00003d4e                NormalizeValue
-                0x00003e4a                EEStringLength
-                0x00003e74                ReadEncoder
-                0x00003f28                TestKey
-                0x000041a6                WaitKey
-                0x000041b2                SmoothLongKeyPress
-                0x000041c8                ShortCircuit
-                0x00004234                MarkItem
-                0x0000425e                MenuTool
-                0x0000442e                AdjustmentMenu
-                0x000044a2                PresentMainMenu
-                0x000045ce                MainMenu
- .text          0x000046a6       0xe2 pause.o
-                0x000046a6                MilliSleep
-                0x00004774                __vector_9
- .text          0x00004788      0x9a0 adjust.o
-                0x00004788                SetAdjustmentDefaults
-                0x000047b0                CheckSum
-                0x000047ca                ManageAdjustmentStorage
-                0x0000483c                ShowAdjustmentValues
-                0x000049b0                SelfAdjustment
-                0x00004e98                SelfTest
- .text          0x00005128      0x10c ADC.o
-                0x00005128                ReadU
-                0x00005210                ReadU_5ms
-                0x00005222                ReadU_20ms
- .text          0x00005234      0x8ac probes.o
-                0x00005234                UpdateProbes
-                0x000052f0                UpdateProbes2
-                0x000052fc                RestoreProbes
-                0x0000530c                BackupProbes
-                0x0000531e                ShortedPair
-                0x00005382                ShortedProbes
-                0x000053a6                DischargeCap
-                0x00005436                DischargeProbes
-                0x00005590                PullProbe
-                0x000055c8                GetFactor
-                0x00005694                GetENormValue
-                0x00005902                CheckProbes
-                0x00005a9e                CheckAlternatives
- .text          0x00005ae0      0x7a6 display.o
-                0x00005ae0                Display_NextLine
-                0x00005b24                Display_LastLine
-                0x00005b50                Display_EEString
-                0x00005b6e                Display_EEString_Center
-                0x00005bc4                Display_ProbeNumber
-                0x00005bfc                Display_SemiPinDesignator
-                0x00005c36                Display_Space
-                0x00005c3e                Display_Minus
-                0x00005c46                Display_Colon
-                0x00005c4e                Display_EEString_Space
-                0x00005c58                Display_NL_EEString
-                0x00005c72                Display_NL_EEString_Center
-                0x00005c8c                Display_NL_EEString_Space
-                0x00005caa                LCD_ClearLine2
-                0x00005cba                LCD_ClearLine3
-                0x00005cca                Display_ColoredEEString
-                0x00005cf0                Display_ColoredEEString_Space
-                0x00005cfa                Display_UseTitleColor
-                0x00005d10                Display_UseOldColor
-                0x00005d1e                Display_UseValueColor
-                0x00005d34                Display_CenterLine
-                0x00005d4e                Display_FullValue
-                0x00005dfc                Display_SignedFullValue
-                0x00005e4a                Display_Value
-                0x00005fa2                Display_Value2
-                0x00005fac                Display_SignedValue
-                0x00005ffa                Display_EValue
-                0x00006046                Display_EIA96
-                0x000060b2                Display_FancyProbeNumber
-                0x00006134                Display_FancySemiPinout
-                0x000061d6                Display_ColorCode
- .text          0x00006286      0x750 resistor.o
-                0x00006286                SmallResistor
-                0x00006414                CheckResistor
-                0x00006960                CheckSingleResistor
- .text          0x000069d6      0xbde cap.o
-                0x000069d6                SetUpDelayTimer
-                0x000069ec                DelayTimer
-                0x000069fe                MeasureESR
-                0x00006cd4                LargeCap
-                0x00006ffc                SmallCap
-                0x000072f4                MeasureCap
-                0x00007460                RefCap
- .text          0x000075b4     0x123e semi.o
-                0x000075b4                SemiPinDesignators
-                0x0000761e                GetLeakageCurrent
-                0x0000770e                SearchDiode
-                0x00007734                CheckDiode
-                0x00007936                VerifyMOSFET
-                0x00007968                GetGateThreshold
-                0x00007a6a                Get_hFE_C
-                0x00007ca2                CheckTransistor
-                0x000080d2                CheckDepletionModeFET
-                0x000084ce                CheckThyristorTriac
-                0x0000860c                CheckPUT
-                0x000086ae                CheckUJT
- .text          0x000087f2      0x492 inductor.o
-                0x000087f2                MeasureInductance
-                0x000089ca                MeasureInductor
- .text          0x00008c84      0xde2 tools_misc.o
-                0x00008c84                ProbePinout
-                0x00008cc8                ESR_Tool
-                0x00008d74                CheckEncoder
-                0x00008e82                Encoder_Tool
-                0x00008f1a                Check_LED
-                0x00008f42                OptoCoupler_Tool
-                0x00009322                Cap_Leakage
-                0x00009542                Monitor_R
-                0x000095c6                Monitor_C
-                0x000096be                Monitor_L
-                0x00009778                Monitor_RCL
-                0x000098dc                Monitor_RL
-                0x0000998e                Show_Single_Diode
-                0x000099ec                Diode_LED_Check
- .text          0x00009a66      0x606 tools_signal.o
-                0x00009a66                PWM_Tool
-                0x00009e14                SquareWave_SignalGenerator
- .text          0x0000a06c        0x0 tools_counter.o
- .text          0x0000a06c        0x0 tools_LC_Meter.o
- .text          0x0000a06c       0x4e SPI.o
-                0x0000a06c                SPI_Clock
-                0x0000a088                SPI_Setup
-                0x0000a0ae                SPI_Write_Byte
- .text          0x0000a0ba        0x0 I2C.o
- .text          0x0000a0ba        0x0 serial.o
- .text          0x0000a0ba        0x0 commands.o
- .text          0x0000a0ba        0x0 OneWire.o
- .text          0x0000a0ba        0x0 IR_RX.o
- .text          0x0000a0ba        0x0 IR_TX.o
- .text          0x0000a0ba      0x30c DHTxx.o
-                0x0000a0ba                DHTxx_Probes
-                0x0000a118                DHTxx_WaitPullDown
-                0x0000a13a                DHTxx_WaitRelease
-                0x0000a15c                DHTxx_GetData
-                0x0000a1ec                DHTxx_Checksum
-                0x0000a20c                DHT11_DisplayValues
-                0x0000a25e                DHT22_DisplayValues
-                0x0000a2ce                DHTxx_DisplaySensor
-                0x0000a308                DHTxx_Tool
- .text          0x0000a3c6        0x0 ADS7843.o
- .text          0x0000a3c6        0x0 MAX6675.o
- .text          0x0000a3c6        0x0 MAX31855.o
- .text          0x0000a3c6        0x0 BH1750.o
- .text          0x0000a3c6        0x0 INA226.o
- .text          0x0000a3c6        0x0 HD44780.o
- .text          0x0000a3c6        0x0 ILI9163.o
- .text          0x0000a3c6      0x67e ILI9341.o
-                0x0000a3c6                LCD_BusSetup
-                0x0000a3dc                LCD_Cmd
-                0x0000a3e8                LCD_Data
-                0x0000a3f4                LCD_Data2
-                0x0000a40e                LCD_AddressWindow
-                0x0000a44c                LCD_CharPos
-                0x0000a4a2                LCD_ClearLine
-                0x0000a56e                LCD_Clear
-                0x0000a58a                LCD_Init
-                0x0000a708                LCD_Char
-                0x0000a7e2                LCD_Cursor
-                0x0000a7fe                LCD_Symbol
-                0x0000a8f6                LCD_Box
-                0x0000a968                LCD_Band
- .text          0x0000aa44        0x0 ILI9481.o
- .text          0x0000aa44        0x0 ILI9486.o
- .text          0x0000aa44        0x0 ILI9488.o
- .text          0x0000aa44        0x0 PCD8544.o
- .text          0x0000aa44        0x0 PCF8814.o
- .text          0x0000aa44        0x0 SH1106.o
- .text          0x0000aa44        0x0 SSD1306.o
- .text          0x0000aa44        0x0 ST7036.o
- .text          0x0000aa44        0x0 ST7565R.o
- .text          0x0000aa44        0x0 ST7735.o
- .text          0x0000aa44        0x0 Semi_ST7735.o
- .text          0x0000aa44        0x0 ST7920.o
- .text          0x0000aa44        0x0 STE2007.o
- .text          0x0000aa44        0x0 VT100.o
- .text          0x0000aa44        0x0 RD_Display.o
- .text          0x0000aa44       0x4c wait.o
-                0x0000aa44                wait5s
-                0x0000aa46                wait4s
-                0x0000aa48                wait3s
-                0x0000aa4a                wait2s
-                0x0000aa4c                wait1000ms
-                0x0000aa4c                wait1s
-                0x0000aa4e                wait500ms
-                0x0000aa50                wait400ms
-                0x0000aa52                wait300ms
-                0x0000aa54                wait200ms
-                0x0000aa56                wait100ms
-                0x0000aa5a                wait50ms
-                0x0000aa5c                wait40ms
-                0x0000aa5e                wait30ms
-                0x0000aa60                wait20ms
-                0x0000aa62                wait10ms
-                0x0000aa64                wait5ms
-                0x0000aa66                wait4ms
-                0x0000aa68                wait3ms
-                0x0000aa6a                wait2ms
-                0x0000aa6c                wait1ms
-                0x0000aa6e                wait500us
-                0x0000aa70                wait400us
-                0x0000aa72                wait300us
-                0x0000aa74                wait200us
-                0x0000aa76                wait100us
-                0x0000aa78                wait50us
-                0x0000aa7a                wait40us
-                0x0000aa7c                wait30us
-                0x0000aa7e                wait20us
-                0x0000aa80                wait10us
-                0x0000aa82                wait5us
-                0x0000aa84                wait4us
-                0x0000aa86                wait3us
-                0x0000aa88                wait2us
-                0x0000aa8a                wait1us
- .text          0x0000aa90        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_mulsi3.o)
- .text          0x0000aa90        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_udivmodqi4.o)
- .text          0x0000aa90        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_divmodqi4.o)
- .text          0x0000aa90        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_udivmodhi4.o)
- .text          0x0000aa90        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_divmodhi4.o)
- .text          0x0000aa90        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_udivmodsi4.o)
- .text          0x0000aa90        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_divmodsi4.o)
- .text          0x0000aa90        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_negsi2.o)
- .text          0x0000aa90        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_exit.o)
- .text          0x0000aa90        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_tablejump2.o)
- .text          0x0000aa90        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_copy_data.o)
- .text          0x0000aa90        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_clear_bss.o)
- .text          0x0000aa90        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_umulhisi3.o)
- .text          0x0000aa90        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_usmulhisi3.o)
- .text          0x0000aa90        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_muluhisi3.o)
- .text          0x0000aa90        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_prologue.o)
- .text          0x0000aa90        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_epilogue.o)
- .text          0x0000aa90        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr5/libc.a(ultoa_ncheck.o)
- .text          0x0000aa90        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr5/libc.a(utoa_ncheck.o)
- .text          0x0000aa90        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr5/libc.a(strrev.o)
- .text          0x0000aa90        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr5/libatmega644.a(eerd_block.o)
- .text          0x0000aa90        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr5/libatmega644.a(eerd_byte.o)
- .text          0x0000aa90        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr5/libatmega644.a(eerd_word.o)
- .text          0x0000aa90        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr5/libatmega644.a(eewr_block.o)
- .text          0x0000aa90        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr5/libatmega644.a(eewr_byte.o)
-                0x0000aa90                        . = ALIGN (0x2)
+                0x00003378                Show_BJT
+                0x0000365c                Show_FET_Extras
+                0x000037a0                Show_FET_Channel
+                0x000037c0                Show_FET_Mode
+                0x000037dc                Show_FET
+                0x0000387e                Show_IGBT
+                0x0000389c                Show_ThyristorTriac
+                0x00003904                Show_PUT
+                0x00003980                Show_UJT
+                0x000039c0                CheckVoltageRefs
+                0x00003a5a                PowerOff
+                0x00003aaa                ShowBattery
+                0x00003b44                CheckBattery
+ .text          0x00003ba8      0xb62 user.o
+                0x00003ba8                NumberOfDigits
+                0x00003c1e                CmpValue
+                0x00003d62                RescaleValue
+                0x00003db2                NormalizeValue
+                0x00003eae                EEStringLength
+                0x00003ed8                ReadEncoder
+                0x00003f8c                TestKey
+                0x0000420a                WaitKey
+                0x00004216                SmoothLongKeyPress
+                0x0000422c                ShortCircuit
+                0x00004298                MarkItem
+                0x000042c2                MenuTool
+                0x00004492                AdjustmentMenu
+                0x00004506                PresentMainMenu
+                0x00004632                MainMenu
+ .text          0x0000470a       0xe2 pause.o
+                0x0000470a                MilliSleep
+                0x000047d8                __vector_9
+ .text          0x000047ec      0xaac adjust.o
+                0x000047ec                GetOffsetIndex
+                0x000047f2                SetAdjustmentDefaults
+                0x00004826                CheckSum
+                0x00004840                ManageAdjustmentStorage
+                0x000048b2                ShowAdjustmentValues
+                0x00004aae                SelfAdjustment
+                0x00005008                SelfTest
+ .text          0x00005298      0x10c ADC.o
+                0x00005298                ReadU
+                0x00005380                ReadU_5ms
+                0x00005392                ReadU_20ms
+ .text          0x000053a4      0x8c2 probes.o
+                0x000053a4                UpdateProbes
+                0x00005460                UpdateProbes2
+                0x0000546c                RestoreProbes
+                0x0000547c                BackupProbes
+                0x0000548e                ShortedPair
+                0x000054f2                ShortedProbes
+                0x00005516                DischargeCap
+                0x000055bc                DischargeProbes
+                0x00005716                PullProbe
+                0x0000574e                GetFactor
+                0x0000581a                GetENormValue
+                0x00005a88                CheckProbes
+                0x00005c24                CheckAlternatives
+ .text          0x00005c66      0x824 display.o
+                0x00005c66                Display_NextLine
+                0x00005caa                Display_LastLine
+                0x00005cd6                Display_SuperscriptChar
+                0x00005d12                Display_SubscriptChar
+                0x00005d54                Display_EEString
+                0x00005d72                Display_EEString_Center
+                0x00005dc8                Display_ProbeNumber
+                0x00005e00                Display_SemiPinDesignator
+                0x00005e3a                Display_Space
+                0x00005e42                Display_Minus
+                0x00005e4a                Display_Colon
+                0x00005e52                Display_EEString_Space
+                0x00005e5c                Display_NL_EEString
+                0x00005e76                Display_NL_EEString_Center
+                0x00005e90                Display_NL_EEString_Space
+                0x00005eae                LCD_ClearLine2
+                0x00005ebe                LCD_ClearLine3
+                0x00005ece                Display_ColoredEEString
+                0x00005ef4                Display_ColoredEEString_Space
+                0x00005efe                Display_UseTitleColor
+                0x00005f14                Display_UseOldColor
+                0x00005f22                Display_UseValueColor
+                0x00005f38                Display_CenterLine
+                0x00005f52                Display_FullValue
+                0x00006000                Display_SignedFullValue
+                0x0000604e                Display_Value
+                0x000061a6                Display_Value2
+                0x000061b0                Display_SignedValue
+                0x000061fe                Display_EValue
+                0x0000624a                Display_EIA96
+                0x000062b6                Display_FancyProbeNumber
+                0x00006338                Display_FancySemiPinout
+                0x000063da                Display_ColorCode
+ .text          0x0000648a      0x76a resistor.o
+                0x0000648a                SmallResistor
+                0x00006632                CheckResistor
+                0x00006b7e                CheckSingleResistor
+ .text          0x00006bf4      0xc1c cap.o
+                0x00006bf4                SetUpDelayTimer
+                0x00006c0a                DelayTimer
+                0x00006c1c                MeasureESR
+                0x00006f12                LargeCap
+                0x0000723a                SmallCap
+                0x00007550                MeasureCap
+                0x000076bc                RefCap
+ .text          0x00007810     0x17c0 semi.o
+                0x00007810                SemiPinDesignators
+                0x0000787a                GetLeakageCurrent
+                0x00007a02                SearchDiode
+                0x00007a28                ScoreDiodeType
+                0x00007c56                CheckDiode
+                0x00007e58                VerifyMOSFET
+                0x00007e8a                GetGateThreshold
+                0x00007fbc                Get_hFE_C
+                0x0000824c                ScoreGeSiBJT
+                0x000083b4                CheckTransistor
+                0x00008876                CheckDepletionModeFET
+                0x00008c8a                IsThyristor
+                0x00008cae                IsTriac
+                0x00008d26                CheckThyristorTriac
+                0x00008de0                CheckPUT
+                0x00008e8c                CheckUJT
+ .text          0x00008fd0      0x4a6 inductor.o
+                0x00008fd0                MeasureInductance
+                0x000091a8                MeasureInductor
+ .text          0x00009476      0xde2 tools_misc.o
+                0x00009476                ProbePinout
+                0x000094ba                ESR_Tool
+                0x00009566                CheckEncoder
+                0x00009674                Encoder_Tool
+                0x0000970c                Check_LED
+                0x00009734                OptoCoupler_Tool
+                0x00009b14                Cap_Leakage
+                0x00009d34                Monitor_R
+                0x00009db8                Monitor_C
+                0x00009eb0                Monitor_L
+                0x00009f6a                Monitor_RCL
+                0x0000a0ce                Monitor_RL
+                0x0000a180                Show_Single_Diode
+                0x0000a1de                Diode_LED_Check
+ .text          0x0000a258      0x606 tools_signal.o
+                0x0000a258                PWM_Tool
+                0x0000a606                SquareWave_SignalGenerator
+ .text          0x0000a85e        0x0 tools_counter.o
+ .text          0x0000a85e        0x0 tools_LC_Meter.o
+ .text          0x0000a85e       0x4e SPI.o
+                0x0000a85e                SPI_Clock
+                0x0000a87a                SPI_Setup
+                0x0000a8a0                SPI_Write_Byte
+ .text          0x0000a8ac        0x0 I2C.o
+ .text          0x0000a8ac        0x0 serial.o
+ .text          0x0000a8ac        0x0 commands.o
+ .text          0x0000a8ac        0x0 OneWire.o
+ .text          0x0000a8ac        0x0 IR_RX.o
+ .text          0x0000a8ac        0x0 IR_TX.o
+ .text          0x0000a8ac      0x30c DHTxx.o
+                0x0000a8ac                DHTxx_Probes
+                0x0000a90a                DHTxx_WaitPullDown
+                0x0000a92c                DHTxx_WaitRelease
+                0x0000a94e                DHTxx_GetData
+                0x0000a9de                DHTxx_Checksum
+                0x0000a9fe                DHT11_DisplayValues
+                0x0000aa50                DHT22_DisplayValues
+                0x0000aac0                DHTxx_DisplaySensor
+                0x0000aafa                DHTxx_Tool
+ .text          0x0000abb8        0x0 ADS7843.o
+ .text          0x0000abb8        0x0 MAX6675.o
+ .text          0x0000abb8        0x0 MAX31855.o
+ .text          0x0000abb8        0x0 BH1750.o
+ .text          0x0000abb8        0x0 INA226.o
+ .text          0x0000abb8        0x0 HD44780.o
+ .text          0x0000abb8        0x0 ILI9163.o
+ .text          0x0000abb8      0x67e ILI9341.o
+                0x0000abb8                LCD_BusSetup
+                0x0000abce                LCD_Cmd
+                0x0000abda                LCD_Data
+                0x0000abe6                LCD_Data2
+                0x0000ac00                LCD_AddressWindow
+                0x0000ac3e                LCD_CharPos
+                0x0000ac94                LCD_ClearLine
+                0x0000ad60                LCD_Clear
+                0x0000ad7c                LCD_Init
+                0x0000aefa                LCD_Char
+                0x0000afd4                LCD_Cursor
+                0x0000aff0                LCD_Symbol
+                0x0000b0e8                LCD_Box
+                0x0000b15a                LCD_Band
+ .text          0x0000b236        0x0 ILI9481.o
+ .text          0x0000b236        0x0 ILI9486.o
+ .text          0x0000b236        0x0 ILI9488.o
+ .text          0x0000b236        0x0 PCD8544.o
+ .text          0x0000b236        0x0 PCF8814.o
+ .text          0x0000b236        0x0 SH1106.o
+ .text          0x0000b236        0x0 SSD1306.o
+ .text          0x0000b236        0x0 ST7036.o
+ .text          0x0000b236        0x0 ST7565R.o
+ .text          0x0000b236        0x0 ST7735.o
+ .text          0x0000b236        0x0 Semi_ST7735.o
+ .text          0x0000b236        0x0 ST7920.o
+ .text          0x0000b236        0x0 STE2007.o
+ .text          0x0000b236        0x0 VT100.o
+ .text          0x0000b236        0x0 RD_Display.o
+ .text          0x0000b236       0x4c wait.o
+                0x0000b236                wait5s
+                0x0000b238                wait4s
+                0x0000b23a                wait3s
+                0x0000b23c                wait2s
+                0x0000b23e                wait1000ms
+                0x0000b23e                wait1s
+                0x0000b240                wait500ms
+                0x0000b242                wait400ms
+                0x0000b244                wait300ms
+                0x0000b246                wait200ms
+                0x0000b248                wait100ms
+                0x0000b24c                wait50ms
+                0x0000b24e                wait40ms
+                0x0000b250                wait30ms
+                0x0000b252                wait20ms
+                0x0000b254                wait10ms
+                0x0000b256                wait5ms
+                0x0000b258                wait4ms
+                0x0000b25a                wait3ms
+                0x0000b25c                wait2ms
+                0x0000b25e                wait1ms
+                0x0000b260                wait500us
+                0x0000b262                wait400us
+                0x0000b264                wait300us
+                0x0000b266                wait200us
+                0x0000b268                wait100us
+                0x0000b26a                wait50us
+                0x0000b26c                wait40us
+                0x0000b26e                wait30us
+                0x0000b270                wait20us
+                0x0000b272                wait10us
+                0x0000b274                wait5us
+                0x0000b276                wait4us
+                0x0000b278                wait3us
+                0x0000b27a                wait2us
+                0x0000b27c                wait1us
+ .text          0x0000b282        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_mulsi3.o)
+ .text          0x0000b282        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_udivmodqi4.o)
+ .text          0x0000b282        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_divmodqi4.o)
+ .text          0x0000b282        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_udivmodhi4.o)
+ .text          0x0000b282        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_divmodhi4.o)
+ .text          0x0000b282        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_udivmodsi4.o)
+ .text          0x0000b282        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_divmodsi4.o)
+ .text          0x0000b282        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_negsi2.o)
+ .text          0x0000b282        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_exit.o)
+ .text          0x0000b282        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_tablejump2.o)
+ .text          0x0000b282        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_copy_data.o)
+ .text          0x0000b282        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_clear_bss.o)
+ .text          0x0000b282        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_umulhisi3.o)
+ .text          0x0000b282        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_usmulhisi3.o)
+ .text          0x0000b282        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_muluhisi3.o)
+ .text          0x0000b282        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_prologue.o)
+ .text          0x0000b282        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_epilogue.o)
+ .text          0x0000b282        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr5/libc.a(ultoa_ncheck.o)
+ .text          0x0000b282        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr5/libc.a(utoa_ncheck.o)
+ .text          0x0000b282        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr5/libc.a(strrev.o)
+ .text          0x0000b282        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr5/libatmega644.a(eerd_block.o)
+ .text          0x0000b282        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr5/libatmega644.a(eerd_byte.o)
+ .text          0x0000b282        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr5/libatmega644.a(eerd_word.o)
+ .text          0x0000b282        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr5/libatmega644.a(eewr_block.o)
+ .text          0x0000b282        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr5/libatmega644.a(eewr_byte.o)
+                0x0000b282                        . = ALIGN (0x2)
  *(.text.*)
- .text.startup  0x0000aa90      0x3c8 main.o
-                0x0000aa90                main
+ .text.startup  0x0000b282      0x3c8 main.o
+                0x0000b282                main
  .text.libgcc.mul
-                0x0000ae58       0x20 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_mulsi3.o)
-                0x0000ae58                __mulsi3
+                0x0000b64a       0x20 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_mulsi3.o)
+                0x0000b64a                __mulsi3
  .text.libgcc.div
-                0x0000ae78        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_mulsi3.o)
- .text.libgcc   0x0000ae78        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_mulsi3.o)
+                0x0000b66a        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_mulsi3.o)
+ .text.libgcc   0x0000b66a        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_mulsi3.o)
  .text.libgcc.prologue
-                0x0000ae78        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_mulsi3.o)
+                0x0000b66a        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_mulsi3.o)
  .text.libgcc.builtins
-                0x0000ae78        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_mulsi3.o)
+                0x0000b66a        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_mulsi3.o)
  .text.libgcc.fmul
-                0x0000ae78        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_mulsi3.o)
+                0x0000b66a        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_mulsi3.o)
  .text.libgcc.fixed
-                0x0000ae78        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_mulsi3.o)
+                0x0000b66a        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_mulsi3.o)
  .text.libgcc.mul
-                0x0000ae78        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_udivmodqi4.o)
+                0x0000b66a        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_udivmodqi4.o)
  .text.libgcc.div
-                0x0000ae78       0x18 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_udivmodqi4.o)
-                0x0000ae78                __udivmodqi4
- .text.libgcc   0x0000ae90        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_udivmodqi4.o)
+                0x0000b66a       0x18 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_udivmodqi4.o)
+                0x0000b66a                __udivmodqi4
+ .text.libgcc   0x0000b682        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_udivmodqi4.o)
  .text.libgcc.prologue
-                0x0000ae90        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_udivmodqi4.o)
+                0x0000b682        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_udivmodqi4.o)
  .text.libgcc.builtins
-                0x0000ae90        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_udivmodqi4.o)
+                0x0000b682        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_udivmodqi4.o)
  .text.libgcc.fmul
-                0x0000ae90        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_udivmodqi4.o)
+                0x0000b682        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_udivmodqi4.o)
  .text.libgcc.fixed
-                0x0000ae90        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_udivmodqi4.o)
+                0x0000b682        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_udivmodqi4.o)
  .text.libgcc.mul
-                0x0000ae90        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_divmodqi4.o)
+                0x0000b682        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_divmodqi4.o)
  .text.libgcc.div
-                0x0000ae90       0x1c /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_divmodqi4.o)
-                0x0000ae90                __divmodqi4
- .text.libgcc   0x0000aeac        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_divmodqi4.o)
+                0x0000b682       0x1c /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_divmodqi4.o)
+                0x0000b682                __divmodqi4
+ .text.libgcc   0x0000b69e        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_divmodqi4.o)
  .text.libgcc.prologue
-                0x0000aeac        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_divmodqi4.o)
+                0x0000b69e        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_divmodqi4.o)
  .text.libgcc.builtins
-                0x0000aeac        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_divmodqi4.o)
+                0x0000b69e        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_divmodqi4.o)
  .text.libgcc.fmul
-                0x0000aeac        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_divmodqi4.o)
+                0x0000b69e        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_divmodqi4.o)
  .text.libgcc.fixed
-                0x0000aeac        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_divmodqi4.o)
+                0x0000b69e        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_divmodqi4.o)
  .text.libgcc.mul
-                0x0000aeac        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_udivmodhi4.o)
+                0x0000b69e        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_udivmodhi4.o)
  .text.libgcc.div
-                0x0000aeac       0x28 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_udivmodhi4.o)
-                0x0000aeac                __udivmodhi4
- .text.libgcc   0x0000aed4        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_udivmodhi4.o)
+                0x0000b69e       0x28 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_udivmodhi4.o)
+                0x0000b69e                __udivmodhi4
+ .text.libgcc   0x0000b6c6        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_udivmodhi4.o)
  .text.libgcc.prologue
-                0x0000aed4        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_udivmodhi4.o)
+                0x0000b6c6        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_udivmodhi4.o)
  .text.libgcc.builtins
-                0x0000aed4        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_udivmodhi4.o)
+                0x0000b6c6        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_udivmodhi4.o)
  .text.libgcc.fmul
-                0x0000aed4        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_udivmodhi4.o)
+                0x0000b6c6        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_udivmodhi4.o)
  .text.libgcc.fixed
-                0x0000aed4        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_udivmodhi4.o)
+                0x0000b6c6        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_udivmodhi4.o)
  .text.libgcc.mul
-                0x0000aed4        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_divmodhi4.o)
+                0x0000b6c6        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_divmodhi4.o)
  .text.libgcc.div
-                0x0000aed4       0x28 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_divmodhi4.o)
-                0x0000aed4                __divmodhi4
-                0x0000aed4                _div
- .text.libgcc   0x0000aefc        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_divmodhi4.o)
+                0x0000b6c6       0x28 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_divmodhi4.o)
+                0x0000b6c6                __divmodhi4
+                0x0000b6c6                _div
+ .text.libgcc   0x0000b6ee        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_divmodhi4.o)
  .text.libgcc.prologue
-                0x0000aefc        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_divmodhi4.o)
+                0x0000b6ee        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_divmodhi4.o)
  .text.libgcc.builtins
-                0x0000aefc        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_divmodhi4.o)
+                0x0000b6ee        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_divmodhi4.o)
  .text.libgcc.fmul
-                0x0000aefc        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_divmodhi4.o)
+                0x0000b6ee        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_divmodhi4.o)
  .text.libgcc.fixed
-                0x0000aefc        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_divmodhi4.o)
+                0x0000b6ee        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_divmodhi4.o)
  .text.libgcc.mul
-                0x0000aefc        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_udivmodsi4.o)
+                0x0000b6ee        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_udivmodsi4.o)
  .text.libgcc.div
-                0x0000aefc       0x44 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_udivmodsi4.o)
-                0x0000aefc                __udivmodsi4
- .text.libgcc   0x0000af40        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_udivmodsi4.o)
+                0x0000b6ee       0x44 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_udivmodsi4.o)
+                0x0000b6ee                __udivmodsi4
+ .text.libgcc   0x0000b732        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_udivmodsi4.o)
  .text.libgcc.prologue
-                0x0000af40        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_udivmodsi4.o)
+                0x0000b732        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_udivmodsi4.o)
  .text.libgcc.builtins
-                0x0000af40        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_udivmodsi4.o)
+                0x0000b732        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_udivmodsi4.o)
  .text.libgcc.fmul
-                0x0000af40        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_udivmodsi4.o)
+                0x0000b732        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_udivmodsi4.o)
  .text.libgcc.fixed
-                0x0000af40        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_udivmodsi4.o)
+                0x0000b732        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_udivmodsi4.o)
  .text.libgcc.mul
-                0x0000af40        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_divmodsi4.o)
+                0x0000b732        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_divmodsi4.o)
  .text.libgcc.div
-                0x0000af40       0x2e /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_divmodsi4.o)
-                0x0000af40                __divmodsi4
- .text.libgcc   0x0000af6e        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_divmodsi4.o)
+                0x0000b732       0x2e /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_divmodsi4.o)
+                0x0000b732                __divmodsi4
+ .text.libgcc   0x0000b760        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_divmodsi4.o)
  .text.libgcc.prologue
-                0x0000af6e        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_divmodsi4.o)
+                0x0000b760        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_divmodsi4.o)
  .text.libgcc.builtins
-                0x0000af6e        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_divmodsi4.o)
+                0x0000b760        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_divmodsi4.o)
  .text.libgcc.fmul
-                0x0000af6e        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_divmodsi4.o)
+                0x0000b760        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_divmodsi4.o)
  .text.libgcc.fixed
-                0x0000af6e        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_divmodsi4.o)
+                0x0000b760        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_divmodsi4.o)
  .text.libgcc.mul
-                0x0000af6e        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_negsi2.o)
+                0x0000b760        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_negsi2.o)
  .text.libgcc.div
-                0x0000af6e       0x10 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_negsi2.o)
-                0x0000af6e                __negsi2
- .text.libgcc   0x0000af7e        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_negsi2.o)
+                0x0000b760       0x10 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_negsi2.o)
+                0x0000b760                __negsi2
+ .text.libgcc   0x0000b770        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_negsi2.o)
  .text.libgcc.prologue
-                0x0000af7e        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_negsi2.o)
+                0x0000b770        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_negsi2.o)
  .text.libgcc.builtins
-                0x0000af7e        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_negsi2.o)
+                0x0000b770        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_negsi2.o)
  .text.libgcc.fmul
-                0x0000af7e        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_negsi2.o)
+                0x0000b770        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_negsi2.o)
  .text.libgcc.fixed
-                0x0000af7e        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_negsi2.o)
+                0x0000b770        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_negsi2.o)
  .text.libgcc.mul
-                0x0000af7e        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_exit.o)
+                0x0000b770        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_exit.o)
  .text.libgcc.div
-                0x0000af7e        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_exit.o)
- .text.libgcc   0x0000af7e        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_exit.o)
+                0x0000b770        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_exit.o)
+ .text.libgcc   0x0000b770        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_exit.o)
  .text.libgcc.prologue
-                0x0000af7e        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_exit.o)
+                0x0000b770        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_exit.o)
  .text.libgcc.builtins
-                0x0000af7e        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_exit.o)
+                0x0000b770        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_exit.o)
  .text.libgcc.fmul
-                0x0000af7e        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_exit.o)
+                0x0000b770        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_exit.o)
  .text.libgcc.fixed
-                0x0000af7e        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_exit.o)
+                0x0000b770        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_exit.o)
  .text.libgcc.mul
-                0x0000af7e        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_tablejump2.o)
+                0x0000b770        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_tablejump2.o)
  .text.libgcc.div
-                0x0000af7e        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_tablejump2.o)
- .text.libgcc   0x0000af7e        0xc /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_tablejump2.o)
-                0x0000af7e                __tablejump2__
+                0x0000b770        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_tablejump2.o)
+ .text.libgcc   0x0000b770        0xc /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_tablejump2.o)
+                0x0000b770                __tablejump2__
  .text.libgcc.prologue
-                0x0000af8a        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_tablejump2.o)
+                0x0000b77c        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_tablejump2.o)
  .text.libgcc.builtins
-                0x0000af8a        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_tablejump2.o)
+                0x0000b77c        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_tablejump2.o)
  .text.libgcc.fmul
-                0x0000af8a        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_tablejump2.o)
+                0x0000b77c        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_tablejump2.o)
  .text.libgcc.fixed
-                0x0000af8a        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_tablejump2.o)
+                0x0000b77c        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_tablejump2.o)
  .text.libgcc.mul
-                0x0000af8a        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_copy_data.o)
+                0x0000b77c        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_copy_data.o)
  .text.libgcc.div
-                0x0000af8a        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_copy_data.o)
- .text.libgcc   0x0000af8a        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_copy_data.o)
+                0x0000b77c        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_copy_data.o)
+ .text.libgcc   0x0000b77c        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_copy_data.o)
  .text.libgcc.prologue
-                0x0000af8a        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_copy_data.o)
+                0x0000b77c        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_copy_data.o)
  .text.libgcc.builtins
-                0x0000af8a        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_copy_data.o)
+                0x0000b77c        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_copy_data.o)
  .text.libgcc.fmul
-                0x0000af8a        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_copy_data.o)
+                0x0000b77c        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_copy_data.o)
  .text.libgcc.fixed
-                0x0000af8a        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_copy_data.o)
+                0x0000b77c        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_copy_data.o)
  .text.libgcc.mul
-                0x0000af8a        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_clear_bss.o)
+                0x0000b77c        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_clear_bss.o)
  .text.libgcc.div
-                0x0000af8a        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_clear_bss.o)
- .text.libgcc   0x0000af8a        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_clear_bss.o)
+                0x0000b77c        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_clear_bss.o)
+ .text.libgcc   0x0000b77c        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_clear_bss.o)
  .text.libgcc.prologue
-                0x0000af8a        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_clear_bss.o)
+                0x0000b77c        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_clear_bss.o)
  .text.libgcc.builtins
-                0x0000af8a        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_clear_bss.o)
+                0x0000b77c        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_clear_bss.o)
  .text.libgcc.fmul
-                0x0000af8a        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_clear_bss.o)
+                0x0000b77c        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_clear_bss.o)
  .text.libgcc.fixed
-                0x0000af8a        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_clear_bss.o)
+                0x0000b77c        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_clear_bss.o)
  .text.libgcc.mul
-                0x0000af8a       0x1e /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_umulhisi3.o)
-                0x0000af8a                __umulhisi3
+                0x0000b77c       0x1e /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_umulhisi3.o)
+                0x0000b77c                __umulhisi3
  .text.libgcc.div
-                0x0000afa8        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_umulhisi3.o)
- .text.libgcc   0x0000afa8        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_umulhisi3.o)
+                0x0000b79a        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_umulhisi3.o)
+ .text.libgcc   0x0000b79a        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_umulhisi3.o)
  .text.libgcc.prologue
-                0x0000afa8        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_umulhisi3.o)
+                0x0000b79a        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_umulhisi3.o)
  .text.libgcc.builtins
-                0x0000afa8        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_umulhisi3.o)
+                0x0000b79a        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_umulhisi3.o)
  .text.libgcc.fmul
-                0x0000afa8        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_umulhisi3.o)
+                0x0000b79a        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_umulhisi3.o)
  .text.libgcc.fixed
-                0x0000afa8        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_umulhisi3.o)
+                0x0000b79a        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_umulhisi3.o)
  .text.libgcc.mul
-                0x0000afa8        0xe /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_usmulhisi3.o)
-                0x0000afa8                __usmulhisi3
-                0x0000afac                __usmulhisi3_tail
+                0x0000b79a        0xe /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_usmulhisi3.o)
+                0x0000b79a                __usmulhisi3
+                0x0000b79e                __usmulhisi3_tail
  .text.libgcc.div
-                0x0000afb6        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_usmulhisi3.o)
- .text.libgcc   0x0000afb6        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_usmulhisi3.o)
+                0x0000b7a8        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_usmulhisi3.o)
+ .text.libgcc   0x0000b7a8        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_usmulhisi3.o)
  .text.libgcc.prologue
-                0x0000afb6        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_usmulhisi3.o)
+                0x0000b7a8        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_usmulhisi3.o)
  .text.libgcc.builtins
-                0x0000afb6        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_usmulhisi3.o)
+                0x0000b7a8        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_usmulhisi3.o)
  .text.libgcc.fmul
-                0x0000afb6        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_usmulhisi3.o)
+                0x0000b7a8        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_usmulhisi3.o)
  .text.libgcc.fixed
-                0x0000afb6        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_usmulhisi3.o)
+                0x0000b7a8        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_usmulhisi3.o)
  .text.libgcc.mul
-                0x0000afb6       0x16 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_muluhisi3.o)
-                0x0000afb6                __muluhisi3
+                0x0000b7a8       0x16 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_muluhisi3.o)
+                0x0000b7a8                __muluhisi3
  .text.libgcc.div
-                0x0000afcc        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_muluhisi3.o)
- .text.libgcc   0x0000afcc        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_muluhisi3.o)
+                0x0000b7be        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_muluhisi3.o)
+ .text.libgcc   0x0000b7be        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_muluhisi3.o)
  .text.libgcc.prologue
-                0x0000afcc        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_muluhisi3.o)
+                0x0000b7be        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_muluhisi3.o)
  .text.libgcc.builtins
-                0x0000afcc        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_muluhisi3.o)
+                0x0000b7be        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_muluhisi3.o)
  .text.libgcc.fmul
-                0x0000afcc        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_muluhisi3.o)
+                0x0000b7be        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_muluhisi3.o)
  .text.libgcc.fixed
-                0x0000afcc        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_muluhisi3.o)
+                0x0000b7be        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_muluhisi3.o)
  .text.libgcc.mul
-                0x0000afcc        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_prologue.o)
+                0x0000b7be        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_prologue.o)
  .text.libgcc.div
-                0x0000afcc        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_prologue.o)
- .text.libgcc   0x0000afcc        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_prologue.o)
+                0x0000b7be        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_prologue.o)
+ .text.libgcc   0x0000b7be        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_prologue.o)
  .text.libgcc.prologue
-                0x0000afcc       0x38 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_prologue.o)
-                0x0000afcc                __prologue_saves__
+                0x0000b7be       0x38 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_prologue.o)
+                0x0000b7be                __prologue_saves__
  .text.libgcc.builtins
-                0x0000b004        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_prologue.o)
+                0x0000b7f6        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_prologue.o)
  .text.libgcc.fmul
-                0x0000b004        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_prologue.o)
+                0x0000b7f6        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_prologue.o)
  .text.libgcc.fixed
-                0x0000b004        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_prologue.o)
+                0x0000b7f6        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_prologue.o)
  .text.libgcc.mul
-                0x0000b004        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_epilogue.o)
+                0x0000b7f6        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_epilogue.o)
  .text.libgcc.div
-                0x0000b004        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_epilogue.o)
- .text.libgcc   0x0000b004        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_epilogue.o)
+                0x0000b7f6        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_epilogue.o)
+ .text.libgcc   0x0000b7f6        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_epilogue.o)
  .text.libgcc.prologue
-                0x0000b004       0x36 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_epilogue.o)
-                0x0000b004                __epilogue_restores__
+                0x0000b7f6       0x36 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_epilogue.o)
+                0x0000b7f6                __epilogue_restores__
  .text.libgcc.builtins
-                0x0000b03a        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_epilogue.o)
+                0x0000b82c        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_epilogue.o)
  .text.libgcc.fmul
-                0x0000b03a        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_epilogue.o)
+                0x0000b82c        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_epilogue.o)
  .text.libgcc.fixed
-                0x0000b03a        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_epilogue.o)
+                0x0000b82c        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_epilogue.o)
  .text.avr-libc
-                0x0000b03a       0x44 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr5/libc.a(ultoa_ncheck.o)
-                0x0000b03a                __ultoa_ncheck
-                0x0000b03c                __ultoa_common
+                0x0000b82c       0x44 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr5/libc.a(ultoa_ncheck.o)
+                0x0000b82c                __ultoa_ncheck
+                0x0000b82e                __ultoa_common
  .text.avr-libc
-                0x0000b07e       0x34 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr5/libc.a(utoa_ncheck.o)
-                0x0000b07e                __utoa_ncheck
-                0x0000b080                __utoa_common
+                0x0000b870       0x34 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr5/libc.a(utoa_ncheck.o)
+                0x0000b870                __utoa_ncheck
+                0x0000b872                __utoa_common
  .text.avr-libc
-                0x0000b0b2       0x20 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr5/libc.a(strrev.o)
-                0x0000b0b2                strrev
+                0x0000b8a4       0x20 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr5/libc.a(strrev.o)
+                0x0000b8a4                strrev
  .text.avr-libc
-                0x0000b0d2       0x20 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr5/libatmega644.a(eerd_block.o)
-                0x0000b0d2                eeprom_read_block
-                0x0000b0d6                eeprom_read_blraw
+                0x0000b8c4       0x20 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr5/libatmega644.a(eerd_block.o)
+                0x0000b8c4                eeprom_read_block
+                0x0000b8c8                eeprom_read_blraw
  .text.avr-libc
-                0x0000b0f2       0x10 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr5/libatmega644.a(eerd_byte.o)
-                0x0000b0f2                eeprom_read_byte
+                0x0000b8e4       0x10 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr5/libatmega644.a(eerd_byte.o)
+                0x0000b8e4                eeprom_read_byte
  .text.avr-libc
-                0x0000b102        0xc /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr5/libatmega644.a(eerd_word.o)
-                0x0000b102                eeprom_read_word
+                0x0000b8f4        0xc /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr5/libatmega644.a(eerd_word.o)
+                0x0000b8f4                eeprom_read_word
  .text.avr-libc
-                0x0000b10e       0x14 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr5/libatmega644.a(eewr_block.o)
-                0x0000b10e                eeprom_write_block
+                0x0000b900       0x14 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr5/libatmega644.a(eewr_block.o)
+                0x0000b900                eeprom_write_block
  .text.avr-libc
-                0x0000b122       0x1c /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr5/libatmega644.a(eewr_byte.o)
-                0x0000b122                eeprom_write_byte
-                0x0000b124                eeprom_write_r18
-                0x0000b13e                        . = ALIGN (0x2)
+                0x0000b914       0x1c /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr5/libatmega644.a(eewr_byte.o)
+                0x0000b914                eeprom_write_byte
+                0x0000b916                eeprom_write_r18
+                0x0000b930                        . = ALIGN (0x2)
  *(.fini9)
- .fini9         0x0000b13e        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_exit.o)
-                0x0000b13e                exit
-                0x0000b13e                _exit
+ .fini9         0x0000b930        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_exit.o)
+                0x0000b930                exit
+                0x0000b930                _exit
  *(.fini9)
  *(.fini8)
  *(.fini8)
@@ -898,21 +905,21 @@ END GROUP
  *(.fini1)
  *(.fini1)
  *(.fini0)
- .fini0         0x0000b13e        0x4 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_exit.o)
+ .fini0         0x0000b930        0x4 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_exit.o)
  *(.fini0)
  *(.hightext)
  *(.hightext*)
  *(.progmemx.*)
-                0x0000b142                        . = ALIGN (0x2)
+                0x0000b934                        . = ALIGN (0x2)
  *(.jumptables)
  *(.jumptables*)
  .jumptables.gcc.main
-                0x0000b142       0x36 main.o
+                0x0000b934       0x36 main.o
  .jumptables.gcc.MainMenu
-                0x0000b178       0x54 user.o
-                0x0000b1cc                        _etext = .
+                0x0000b96a       0x54 user.o
+                0x0000b9be                        _etext = .
 
-.data           0x00800100       0x10 load address 0x0000b1cc
+.data           0x00800100       0x10 load address 0x0000b9be
                 0x00800100                        PROVIDE (__data_start = .)
  *(.data)
  .data          0x00800100        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr5/crtatmega644.o
@@ -1000,7 +1007,7 @@ END GROUP
                 0x00800110                        _edata = .
                 0x00800110                        PROVIDE (__data_end = .)
 
-.bss            0x00800110       0xf9
+.bss            0x00800110       0xff
                 0x00800110                        PROVIDE (__bss_start = .)
  *(.bss)
  .bss           0x00800110        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr5/crtatmega644.o
@@ -1078,7 +1085,7 @@ END GROUP
  .bss           0x00800110        0x0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr5/libatmega644.a(eewr_byte.o)
  *(.bss*)
  *(COMMON)
- COMMON         0x00800110       0xef main.o
+ COMMON         0x00800110       0xf5 main.o
                 0x00800110                Check
                 0x0080011b                Resistors
                 0x00800130                UI
@@ -1092,29 +1099,29 @@ END GROUP
                 0x008001be                Semi
                 0x008001dd                Probes
                 0x008001ef                NV
-                0x008001fa                Inductor
- COMMON         0x008001ff        0xa ILI9341.o
-                0x008001ff                X_End
-                0x00800201                Y_End
-                0x00800203                LineFlags
-                0x00800205                Y_Start
-                0x00800207                X_Start
-                0x00800209                        PROVIDE (__bss_end = .)
-                0x0000b1cc                        __data_load_start = LOADADDR (.data)
-                0x0000b1dc                        __data_load_end = (__data_load_start + SIZEOF (.data))
+                0x00800200                Inductor
+ COMMON         0x00800205        0xa ILI9341.o
+                0x00800205                X_End
+                0x00800207                Y_End
+                0x00800209                LineFlags
+                0x0080020b                Y_Start
+                0x0080020d                X_Start
+                0x0080020f                        PROVIDE (__bss_end = .)
+                0x0000b9be                        __data_load_start = LOADADDR (.data)
+                0x0000b9ce                        __data_load_end = (__data_load_start + SIZEOF (.data))
 
-.noinit         0x00800209        0x0
+.noinit         0x0080020f        0x0
                 [!provide]                        PROVIDE (__noinit_start = .)
  *(.noinit .noinit.* .gnu.linkonce.n.*)
                 [!provide]                        PROVIDE (__noinit_end = .)
-                0x00800209                        _end = .
+                0x0080020f                        _end = .
                 [!provide]                        PROVIDE (__heap_start = .)
                 0x00000000                        __flmap_init_label = DEFINED (__flmap_noinit_start)?__flmap_noinit_start:0x0
                 0x00000000                        __flmap = DEFINED (__flmap)?__flmap:0x0
 
-.eeprom         0x00810000      0x494
+.eeprom         0x00810000      0x4a6
  *(.eeprom*)
- .eeprom        0x00810000      0x494 main.o
+ .eeprom        0x00810000      0x4a6 main.o
                 0x00810000                Channel_table
                 0x00810003                Pin_table
                 0x00810006                Rh_table
@@ -1173,71 +1180,73 @@ END GROUP
                 0x008102b0                I_R_str
                 0x008102b4                Vth_str
                 0x008102b8                DiodeCap_str
-                0x008102ba                Vf_str
-                0x008102bd                I_CEO_str
-                0x008102c2                V_GT_str
-                0x008102c7                V_BE_str
-                0x008102cb                h_FE_str
-                0x008102cf                PNP_str
-                0x008102d3                NPN_str
-                0x008102d7                C_gs_str
-                0x008102db                IGBT_str
-                0x008102e0                Depletion_str
-                0x008102e5                Enhancement_str
-                0x008102ea                Channel_str
-                0x008102ee                FET_str
-                0x008102f2                MOS_str
-                0x008102f6                Version_str
-                0x008102fd                Diode_LED_str
-                0x00810307                PowerOff_str
-                0x0081030b                Monitor_RL_str
-                0x00810316                Monitor_RCL_str
-                0x00810322                Monitor_L_str
-                0x0081032c                Monitor_C_str
-                0x00810336                Monitor_R_str
-                0x00810340                CapDischarge_str
-                0x0081034c                CapLow_str
-                0x0081034f                CapHigh_str
-                0x00810352                CapCharge_str
-                0x0081035b                CapLeak_str
-                0x00810367                UJT_str
-                0x0081036b                Start_str
-                0x00810371                CTR_str
-                0x00810375                None_str
-                0x0081037a                OptoCoupler_str
-                0x00810387                TurnRight_str
-                0x00810393                Encoder_str
-                0x008103a2                SquareWave_str
-                0x008103ae                PWM_str
-                0x008103b2                Menu_or_Test_str
-                0x008103be                Selftest_str
-                0x008103c3                Hertz_str
-                0x008103c6                Bye_str
-                0x008103cb                PUT_str
-                0x008103cf                Triac_str
-                0x008103d5                Thyristor_str
-                0x008103d9                BJT_str
-                0x008103dd                Checksum_str
-                0x008103e6                Exit_str
-                0x008103eb                Error_str
-                0x008103f2                DischargeFailed_str
-                0x008103fb                ShortCircuit_str
-                0x0081040a                Create_str
-                0x00810411                Remove_str
-                0x00810418                Show_str
-                0x00810424                Load_str
-                0x00810429                Save_str
-                0x0081042e                Adjustment_str
-                0x00810439                Select_str
-                0x00810440                Done_str
-                0x00810446                Failed2_str
-                0x0081044d                Failed1_str
-                0x0081045a                Timeout_str
-                0x00810462                Probing_str
-                0x0081046d                Tester_str
-                0x0081047e                NV_Adjust_2
-                0x00810489                NV_Adjust_1
-                0x00810494                        __eeprom_end = .
+                0x008102ba                Si_str
+                0x008102bd                Ge_str
+                0x008102c0                Vf_str
+                0x008102c3                I_CEO_str
+                0x008102c8                V_GT_str
+                0x008102cd                V_BE_str
+                0x008102d1                h_FE_str
+                0x008102d5                PNP_str
+                0x008102d9                NPN_str
+                0x008102dd                C_gs_str
+                0x008102e1                IGBT_str
+                0x008102e6                Depletion_str
+                0x008102eb                Enhancement_str
+                0x008102f0                Channel_str
+                0x008102f4                FET_str
+                0x008102f8                MOS_str
+                0x008102fc                Version_str
+                0x00810303                Diode_LED_str
+                0x0081030d                PowerOff_str
+                0x00810311                Monitor_RL_str
+                0x0081031c                Monitor_RCL_str
+                0x00810328                Monitor_L_str
+                0x00810332                Monitor_C_str
+                0x0081033c                Monitor_R_str
+                0x00810346                CapDischarge_str
+                0x00810352                CapLow_str
+                0x00810355                CapHigh_str
+                0x00810358                CapCharge_str
+                0x00810361                CapLeak_str
+                0x0081036d                UJT_str
+                0x00810371                Start_str
+                0x00810377                CTR_str
+                0x0081037b                None_str
+                0x00810380                OptoCoupler_str
+                0x0081038d                TurnRight_str
+                0x00810399                Encoder_str
+                0x008103a8                SquareWave_str
+                0x008103b4                PWM_str
+                0x008103b8                Menu_or_Test_str
+                0x008103c4                Selftest_str
+                0x008103c9                Hertz_str
+                0x008103cc                Bye_str
+                0x008103d1                PUT_str
+                0x008103d5                Triac_str
+                0x008103db                Thyristor_str
+                0x008103df                BJT_str
+                0x008103e3                Checksum_str
+                0x008103ec                Exit_str
+                0x008103f1                Error_str
+                0x008103f8                DischargeFailed_str
+                0x00810401                ShortCircuit_str
+                0x00810410                Create_str
+                0x00810417                Remove_str
+                0x0081041e                Show_str
+                0x0081042a                Load_str
+                0x0081042f                Save_str
+                0x00810434                Adjustment_str
+                0x0081043f                Select_str
+                0x00810446                Done_str
+                0x0081044c                Failed2_str
+                0x00810453                Failed1_str
+                0x00810460                Timeout_str
+                0x00810468                Probing_str
+                0x00810473                Tester_str
+                0x00810484                NV_Adjust_2
+                0x00810495                NV_Adjust_1
+                0x008104a6                        __eeprom_end = .
 
 .fuse
  *(.fuse)
@@ -1420,260 +1429,260 @@ END GROUP
 .debug_pubnames
  *(.debug_pubnames)
 
-.debug_info     0x00000000    0x1ed32
+.debug_info     0x00000000    0x1f74e
  *(.debug_info .gnu.linkonce.wi.*)
  .debug_info    0x00000000      0x672 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr5/crtatmega644.o
- .debug_info    0x00000672     0x3e1b main.o
- .debug_info    0x0000448d     0x20b3 user.o
- .debug_info    0x00006540     0x118f pause.o
- .debug_info    0x000076cf     0x1d4c adjust.o
- .debug_info    0x0000941b     0x1240 ADC.o
- .debug_info    0x0000a65b     0x1be1 probes.o
- .debug_info    0x0000c23c     0x22a4 display.o
- .debug_info    0x0000e4e0     0x15e8 resistor.o
- .debug_info    0x0000fac8     0x1b78 cap.o
- .debug_info    0x00011640     0x1c84 semi.o
- .debug_info    0x000132c4     0x145e inductor.o
- .debug_info    0x00014722     0x2470 tools_misc.o
- .debug_info    0x00016b92     0x15b0 tools_signal.o
- .debug_info    0x00018142     0x10da tools_counter.o
- .debug_info    0x0001921c     0x10e8 tools_LC_Meter.o
- .debug_info    0x0001a304     0x1192 SPI.o
- .debug_info    0x0001b496     0x18a1 DHTxx.o
- .debug_info    0x0001cd37     0x1d4f ILI9341.o
- .debug_info    0x0001ea86       0x26 wait.o
- .debug_info    0x0001eaac       0x26 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_mulsi3.o)
- .debug_info    0x0001ead2       0x26 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_udivmodqi4.o)
- .debug_info    0x0001eaf8       0x26 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_divmodqi4.o)
- .debug_info    0x0001eb1e       0x26 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_udivmodhi4.o)
- .debug_info    0x0001eb44       0x26 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_divmodhi4.o)
- .debug_info    0x0001eb6a       0x26 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_udivmodsi4.o)
- .debug_info    0x0001eb90       0x26 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_divmodsi4.o)
- .debug_info    0x0001ebb6       0x26 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_negsi2.o)
- .debug_info    0x0001ebdc       0x26 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_exit.o)
- .debug_info    0x0001ec02       0x26 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_tablejump2.o)
- .debug_info    0x0001ec28       0x26 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_copy_data.o)
- .debug_info    0x0001ec4e       0x26 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_clear_bss.o)
- .debug_info    0x0001ec74       0x26 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_umulhisi3.o)
- .debug_info    0x0001ec9a       0x26 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_usmulhisi3.o)
- .debug_info    0x0001ecc0       0x26 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_muluhisi3.o)
- .debug_info    0x0001ece6       0x26 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_prologue.o)
- .debug_info    0x0001ed0c       0x26 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_epilogue.o)
+ .debug_info    0x00000672     0x3ed2 main.o
+ .debug_info    0x00004544     0x20c3 user.o
+ .debug_info    0x00006607     0x11af pause.o
+ .debug_info    0x000077b6     0x1eb5 adjust.o
+ .debug_info    0x0000966b     0x1260 ADC.o
+ .debug_info    0x0000a8cb     0x1c03 probes.o
+ .debug_info    0x0000c4ce     0x2422 display.o
+ .debug_info    0x0000e8f0     0x1622 resistor.o
+ .debug_info    0x0000ff12     0x1bab cap.o
+ .debug_info    0x00011abd     0x2102 semi.o
+ .debug_info    0x00013bbf     0x14af inductor.o
+ .debug_info    0x0001506e     0x2480 tools_misc.o
+ .debug_info    0x000174ee     0x15d0 tools_signal.o
+ .debug_info    0x00018abe     0x10fa tools_counter.o
+ .debug_info    0x00019bb8     0x1108 tools_LC_Meter.o
+ .debug_info    0x0001acc0     0x11b2 SPI.o
+ .debug_info    0x0001be72     0x18c1 DHTxx.o
+ .debug_info    0x0001d733     0x1d6f ILI9341.o
+ .debug_info    0x0001f4a2       0x26 wait.o
+ .debug_info    0x0001f4c8       0x26 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_mulsi3.o)
+ .debug_info    0x0001f4ee       0x26 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_udivmodqi4.o)
+ .debug_info    0x0001f514       0x26 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_divmodqi4.o)
+ .debug_info    0x0001f53a       0x26 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_udivmodhi4.o)
+ .debug_info    0x0001f560       0x26 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_divmodhi4.o)
+ .debug_info    0x0001f586       0x26 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_udivmodsi4.o)
+ .debug_info    0x0001f5ac       0x26 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_divmodsi4.o)
+ .debug_info    0x0001f5d2       0x26 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_negsi2.o)
+ .debug_info    0x0001f5f8       0x26 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_exit.o)
+ .debug_info    0x0001f61e       0x26 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_tablejump2.o)
+ .debug_info    0x0001f644       0x26 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_copy_data.o)
+ .debug_info    0x0001f66a       0x26 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_clear_bss.o)
+ .debug_info    0x0001f690       0x26 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_umulhisi3.o)
+ .debug_info    0x0001f6b6       0x26 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_usmulhisi3.o)
+ .debug_info    0x0001f6dc       0x26 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_muluhisi3.o)
+ .debug_info    0x0001f702       0x26 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_prologue.o)
+ .debug_info    0x0001f728       0x26 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_epilogue.o)
 
-.debug_abbrev   0x00000000     0x3230
+.debug_abbrev   0x00000000     0x33bd
  *(.debug_abbrev)
  .debug_abbrev  0x00000000      0x619 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr5/crtatmega644.o
  .debug_abbrev  0x00000619      0x3f0 main.o
  .debug_abbrev  0x00000a09      0x346 user.o
- .debug_abbrev  0x00000d4f      0x173 pause.o
- .debug_abbrev  0x00000ec2      0x247 adjust.o
- .debug_abbrev  0x00001109      0x1af ADC.o
- .debug_abbrev  0x000012b8      0x2e2 probes.o
- .debug_abbrev  0x0000159a      0x355 display.o
- .debug_abbrev  0x000018ef      0x297 resistor.o
- .debug_abbrev  0x00001b86      0x38c cap.o
- .debug_abbrev  0x00001f12      0x2ba semi.o
- .debug_abbrev  0x000021cc      0x231 inductor.o
- .debug_abbrev  0x000023fd      0x288 tools_misc.o
- .debug_abbrev  0x00002685      0x1ab tools_signal.o
- .debug_abbrev  0x00002830      0x10c tools_counter.o
- .debug_abbrev  0x0000293c      0x10c tools_LC_Meter.o
- .debug_abbrev  0x00002a48      0x179 SPI.o
- .debug_abbrev  0x00002bc1      0x28d DHTxx.o
- .debug_abbrev  0x00002e4e      0x27a ILI9341.o
- .debug_abbrev  0x000030c8       0x14 wait.o
- .debug_abbrev  0x000030dc       0x14 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_mulsi3.o)
- .debug_abbrev  0x000030f0       0x14 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_udivmodqi4.o)
- .debug_abbrev  0x00003104       0x14 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_divmodqi4.o)
- .debug_abbrev  0x00003118       0x14 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_udivmodhi4.o)
- .debug_abbrev  0x0000312c       0x14 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_divmodhi4.o)
- .debug_abbrev  0x00003140       0x14 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_udivmodsi4.o)
- .debug_abbrev  0x00003154       0x14 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_divmodsi4.o)
- .debug_abbrev  0x00003168       0x14 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_negsi2.o)
- .debug_abbrev  0x0000317c       0x14 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_exit.o)
- .debug_abbrev  0x00003190       0x14 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_tablejump2.o)
- .debug_abbrev  0x000031a4       0x14 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_copy_data.o)
- .debug_abbrev  0x000031b8       0x14 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_clear_bss.o)
- .debug_abbrev  0x000031cc       0x14 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_umulhisi3.o)
- .debug_abbrev  0x000031e0       0x14 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_usmulhisi3.o)
- .debug_abbrev  0x000031f4       0x14 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_muluhisi3.o)
- .debug_abbrev  0x00003208       0x14 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_prologue.o)
- .debug_abbrev  0x0000321c       0x14 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_epilogue.o)
+ .debug_abbrev  0x00000d4f      0x17c pause.o
+ .debug_abbrev  0x00000ecb      0x298 adjust.o
+ .debug_abbrev  0x00001163      0x1b8 ADC.o
+ .debug_abbrev  0x0000131b      0x2e2 probes.o
+ .debug_abbrev  0x000015fd      0x34a display.o
+ .debug_abbrev  0x00001947      0x2a5 resistor.o
+ .debug_abbrev  0x00001bec      0x395 cap.o
+ .debug_abbrev  0x00001f81      0x38e semi.o
+ .debug_abbrev  0x0000230f      0x257 inductor.o
+ .debug_abbrev  0x00002566      0x288 tools_misc.o
+ .debug_abbrev  0x000027ee      0x1b4 tools_signal.o
+ .debug_abbrev  0x000029a2      0x115 tools_counter.o
+ .debug_abbrev  0x00002ab7      0x115 tools_LC_Meter.o
+ .debug_abbrev  0x00002bcc      0x182 SPI.o
+ .debug_abbrev  0x00002d4e      0x28d DHTxx.o
+ .debug_abbrev  0x00002fdb      0x27a ILI9341.o
+ .debug_abbrev  0x00003255       0x14 wait.o
+ .debug_abbrev  0x00003269       0x14 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_mulsi3.o)
+ .debug_abbrev  0x0000327d       0x14 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_udivmodqi4.o)
+ .debug_abbrev  0x00003291       0x14 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_divmodqi4.o)
+ .debug_abbrev  0x000032a5       0x14 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_udivmodhi4.o)
+ .debug_abbrev  0x000032b9       0x14 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_divmodhi4.o)
+ .debug_abbrev  0x000032cd       0x14 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_udivmodsi4.o)
+ .debug_abbrev  0x000032e1       0x14 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_divmodsi4.o)
+ .debug_abbrev  0x000032f5       0x14 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_negsi2.o)
+ .debug_abbrev  0x00003309       0x14 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_exit.o)
+ .debug_abbrev  0x0000331d       0x14 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_tablejump2.o)
+ .debug_abbrev  0x00003331       0x14 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_copy_data.o)
+ .debug_abbrev  0x00003345       0x14 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_clear_bss.o)
+ .debug_abbrev  0x00003359       0x14 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_umulhisi3.o)
+ .debug_abbrev  0x0000336d       0x14 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_usmulhisi3.o)
+ .debug_abbrev  0x00003381       0x14 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_muluhisi3.o)
+ .debug_abbrev  0x00003395       0x14 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_prologue.o)
+ .debug_abbrev  0x000033a9       0x14 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_epilogue.o)
 
-.debug_line     0x00000000    0x14735
+.debug_line     0x00000000    0x15754
  *(.debug_line .debug_line.* .debug_line_end)
  .debug_line    0x00000000       0x1d /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr5/crtatmega644.o
- .debug_line    0x0000001d     0x26da main.o
- .debug_line    0x000026f7     0x1eec user.o
- .debug_line    0x000045e3      0x384 pause.o
- .debug_line    0x00004967     0x1442 adjust.o
- .debug_line    0x00005da9      0x41a ADC.o
- .debug_line    0x000061c3     0x1728 probes.o
- .debug_line    0x000078eb     0x1406 display.o
- .debug_line    0x00008cf1      0xe8d resistor.o
- .debug_line    0x00009b7e     0x2000 cap.o
- .debug_line    0x0000bb7e     0x2bf4 semi.o
- .debug_line    0x0000e772      0xad6 inductor.o
- .debug_line    0x0000f248     0x1c2e tools_misc.o
- .debug_line    0x00010e76      0xea9 tools_signal.o
- .debug_line    0x00011d1f       0xe5 tools_counter.o
- .debug_line    0x00011e04       0xe5 tools_LC_Meter.o
- .debug_line    0x00011ee9      0x2e0 SPI.o
- .debug_line    0x000121c9        0x0 I2C.o
- .debug_line    0x000121c9        0x0 serial.o
- .debug_line    0x000121c9        0x0 commands.o
- .debug_line    0x000121c9        0x0 OneWire.o
- .debug_line    0x000121c9        0x0 IR_RX.o
- .debug_line    0x000121c9        0x0 IR_TX.o
- .debug_line    0x000121c9      0x984 DHTxx.o
- .debug_line    0x00012b4d        0x0 ADS7843.o
- .debug_line    0x00012b4d        0x0 MAX6675.o
- .debug_line    0x00012b4d        0x0 MAX31855.o
- .debug_line    0x00012b4d        0x0 BH1750.o
- .debug_line    0x00012b4d        0x0 INA226.o
- .debug_line    0x00012b4d        0x0 HD44780.o
- .debug_line    0x00012b4d        0x0 ILI9163.o
- .debug_line    0x00012b4d      0xf92 ILI9341.o
- .debug_line    0x00013adf        0x0 ILI9481.o
- .debug_line    0x00013adf        0x0 ILI9486.o
- .debug_line    0x00013adf        0x0 ILI9488.o
- .debug_line    0x00013adf        0x0 PCD8544.o
- .debug_line    0x00013adf        0x0 PCF8814.o
- .debug_line    0x00013adf        0x0 SH1106.o
- .debug_line    0x00013adf        0x0 SSD1306.o
- .debug_line    0x00013adf        0x0 ST7036.o
- .debug_line    0x00013adf        0x0 ST7565R.o
- .debug_line    0x00013adf        0x0 ST7735.o
- .debug_line    0x00013adf        0x0 Semi_ST7735.o
- .debug_line    0x00013adf        0x0 ST7920.o
- .debug_line    0x00013adf        0x0 STE2007.o
- .debug_line    0x00013adf        0x0 VT100.o
- .debug_line    0x00013adf        0x0 RD_Display.o
- .debug_line    0x00013adf      0x114 wait.o
- .debug_line    0x00013bf3       0xac /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_mulsi3.o)
- .debug_line    0x00013c9f       0x9a /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_udivmodqi4.o)
- .debug_line    0x00013d39       0xa0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_divmodqi4.o)
- .debug_line    0x00013dd9       0xca /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_udivmodhi4.o)
- .debug_line    0x00013ea3       0xc4 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_divmodhi4.o)
- .debug_line    0x00013f67      0x11e /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_udivmodsi4.o)
- .debug_line    0x00014085       0xca /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_divmodsi4.o)
- .debug_line    0x0001414f       0x5e /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_negsi2.o)
- .debug_line    0x000141ad       0x5e /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_exit.o)
- .debug_line    0x0001420b       0x76 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_tablejump2.o)
- .debug_line    0x00014281       0x94 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_copy_data.o)
- .debug_line    0x00014315       0x82 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_clear_bss.o)
- .debug_line    0x00014397       0xac /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_umulhisi3.o)
- .debug_line    0x00014443       0x76 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_usmulhisi3.o)
- .debug_line    0x000144b9       0x8e /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_muluhisi3.o)
- .debug_line    0x00014547       0xfa /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_prologue.o)
- .debug_line    0x00014641       0xf4 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_epilogue.o)
+ .debug_line    0x0000001d     0x27c4 main.o
+ .debug_line    0x000027e1     0x1eec user.o
+ .debug_line    0x000046cd      0x384 pause.o
+ .debug_line    0x00004a51     0x1571 adjust.o
+ .debug_line    0x00005fc2      0x41a ADC.o
+ .debug_line    0x000063dc     0x1768 probes.o
+ .debug_line    0x00007b44     0x150c display.o
+ .debug_line    0x00009050      0xec2 resistor.o
+ .debug_line    0x00009f12     0x2052 cap.o
+ .debug_line    0x0000bf64     0x3817 semi.o
+ .debug_line    0x0000f77b      0xaec inductor.o
+ .debug_line    0x00010267     0x1c2e tools_misc.o
+ .debug_line    0x00011e95      0xea9 tools_signal.o
+ .debug_line    0x00012d3e       0xe5 tools_counter.o
+ .debug_line    0x00012e23       0xe5 tools_LC_Meter.o
+ .debug_line    0x00012f08      0x2e0 SPI.o
+ .debug_line    0x000131e8        0x0 I2C.o
+ .debug_line    0x000131e8        0x0 serial.o
+ .debug_line    0x000131e8        0x0 commands.o
+ .debug_line    0x000131e8        0x0 OneWire.o
+ .debug_line    0x000131e8        0x0 IR_RX.o
+ .debug_line    0x000131e8        0x0 IR_TX.o
+ .debug_line    0x000131e8      0x984 DHTxx.o
+ .debug_line    0x00013b6c        0x0 ADS7843.o
+ .debug_line    0x00013b6c        0x0 MAX6675.o
+ .debug_line    0x00013b6c        0x0 MAX31855.o
+ .debug_line    0x00013b6c        0x0 BH1750.o
+ .debug_line    0x00013b6c        0x0 INA226.o
+ .debug_line    0x00013b6c        0x0 HD44780.o
+ .debug_line    0x00013b6c        0x0 ILI9163.o
+ .debug_line    0x00013b6c      0xf92 ILI9341.o
+ .debug_line    0x00014afe        0x0 ILI9481.o
+ .debug_line    0x00014afe        0x0 ILI9486.o
+ .debug_line    0x00014afe        0x0 ILI9488.o
+ .debug_line    0x00014afe        0x0 PCD8544.o
+ .debug_line    0x00014afe        0x0 PCF8814.o
+ .debug_line    0x00014afe        0x0 SH1106.o
+ .debug_line    0x00014afe        0x0 SSD1306.o
+ .debug_line    0x00014afe        0x0 ST7036.o
+ .debug_line    0x00014afe        0x0 ST7565R.o
+ .debug_line    0x00014afe        0x0 ST7735.o
+ .debug_line    0x00014afe        0x0 Semi_ST7735.o
+ .debug_line    0x00014afe        0x0 ST7920.o
+ .debug_line    0x00014afe        0x0 STE2007.o
+ .debug_line    0x00014afe        0x0 VT100.o
+ .debug_line    0x00014afe        0x0 RD_Display.o
+ .debug_line    0x00014afe      0x114 wait.o
+ .debug_line    0x00014c12       0xac /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_mulsi3.o)
+ .debug_line    0x00014cbe       0x9a /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_udivmodqi4.o)
+ .debug_line    0x00014d58       0xa0 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_divmodqi4.o)
+ .debug_line    0x00014df8       0xca /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_udivmodhi4.o)
+ .debug_line    0x00014ec2       0xc4 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_divmodhi4.o)
+ .debug_line    0x00014f86      0x11e /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_udivmodsi4.o)
+ .debug_line    0x000150a4       0xca /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_divmodsi4.o)
+ .debug_line    0x0001516e       0x5e /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_negsi2.o)
+ .debug_line    0x000151cc       0x5e /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_exit.o)
+ .debug_line    0x0001522a       0x76 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_tablejump2.o)
+ .debug_line    0x000152a0       0x94 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_copy_data.o)
+ .debug_line    0x00015334       0x82 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_clear_bss.o)
+ .debug_line    0x000153b6       0xac /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_umulhisi3.o)
+ .debug_line    0x00015462       0x76 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_usmulhisi3.o)
+ .debug_line    0x000154d8       0x8e /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_muluhisi3.o)
+ .debug_line    0x00015566       0xfa /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_prologue.o)
+ .debug_line    0x00015660       0xf4 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_epilogue.o)
 
-.debug_frame    0x00000000     0x1514
+.debug_frame    0x00000000     0x1640
  *(.debug_frame)
  .debug_frame   0x00000000      0x358 main.o
  .debug_frame   0x00000358      0x240 user.o
  .debug_frame   0x00000598       0x34 pause.o
- .debug_frame   0x000005cc       0xdc adjust.o
- .debug_frame   0x000006a8       0x5c ADC.o
- .debug_frame   0x00000704      0x18c probes.o
- .debug_frame   0x00000890      0x350 display.o
- .debug_frame   0x00000be0       0xa8 resistor.o
- .debug_frame   0x00000c88      0x114 cap.o
- .debug_frame   0x00000d9c      0x214 semi.o
- .debug_frame   0x00000fb0       0x6c inductor.o
- .debug_frame   0x0000101c      0x1b0 tools_misc.o
- .debug_frame   0x000011cc       0x78 tools_signal.o
- .debug_frame   0x00001244       0x44 SPI.o
- .debug_frame   0x00001288      0x10c DHTxx.o
- .debug_frame   0x00001394      0x180 ILI9341.o
+ .debug_frame   0x000005cc       0xec adjust.o
+ .debug_frame   0x000006b8       0x5c ADC.o
+ .debug_frame   0x00000714      0x18c probes.o
+ .debug_frame   0x000008a0      0x390 display.o
+ .debug_frame   0x00000c30       0xa8 resistor.o
+ .debug_frame   0x00000cd8      0x114 cap.o
+ .debug_frame   0x00000dec      0x2f0 semi.o
+ .debug_frame   0x000010dc       0x6c inductor.o
+ .debug_frame   0x00001148      0x1b0 tools_misc.o
+ .debug_frame   0x000012f8       0x78 tools_signal.o
+ .debug_frame   0x00001370       0x44 SPI.o
+ .debug_frame   0x000013b4      0x10c DHTxx.o
+ .debug_frame   0x000014c0      0x180 ILI9341.o
 
-.debug_str      0x00000000     0x1ddb
+.debug_str      0x00000000     0x1ed5
  *(.debug_str)
  .debug_str     0x00000000      0x231 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr5/crtatmega644.o
- .debug_str     0x00000231     0x1baa main.o
-                               0x10ba (size before relaxing)
- .debug_str     0x00001ddb      0xd92 user.o
- .debug_str     0x00001ddb      0x9d5 pause.o
- .debug_str     0x00001ddb      0xc6f adjust.o
- .debug_str     0x00001ddb      0x9ec ADC.o
- .debug_str     0x00001ddb      0xbf8 probes.o
- .debug_str     0x00001ddb      0xd88 display.o
- .debug_str     0x00001ddb      0xaa0 resistor.o
- .debug_str     0x00001ddb      0xb3b cap.o
- .debug_str     0x00001ddb      0xbe7 semi.o
- .debug_str     0x00001ddb      0xa62 inductor.o
- .debug_str     0x00001ddb      0xc70 tools_misc.o
- .debug_str     0x00001ddb      0xafe tools_signal.o
- .debug_str     0x00001ddb      0x9a9 tools_counter.o
- .debug_str     0x00001ddb      0x9c7 tools_LC_Meter.o
- .debug_str     0x00001ddb      0x9cc SPI.o
- .debug_str     0x00001ddb       0xe2 I2C.o
- .debug_str     0x00001ddb       0xe5 serial.o
- .debug_str     0x00001ddb       0xe7 commands.o
- .debug_str     0x00001ddb       0xe6 OneWire.o
- .debug_str     0x00001ddb       0xe4 IR_RX.o
- .debug_str     0x00001ddb       0xe4 IR_TX.o
- .debug_str     0x00001ddb      0xbb8 DHTxx.o
- .debug_str     0x00001ddb       0xe6 ADS7843.o
- .debug_str     0x00001ddb       0xe6 MAX6675.o
- .debug_str     0x00001ddb       0xe7 MAX31855.o
- .debug_str     0x00001ddb       0xe5 BH1750.o
- .debug_str     0x00001ddb       0xe5 INA226.o
- .debug_str     0x00001ddb       0xe6 HD44780.o
- .debug_str     0x00001ddb       0xe6 ILI9163.o
- .debug_str     0x00001ddb      0xb2b ILI9341.o
- .debug_str     0x00001ddb       0xe6 ILI9481.o
- .debug_str     0x00001ddb       0xe6 ILI9486.o
- .debug_str     0x00001ddb       0xe6 ILI9488.o
- .debug_str     0x00001ddb       0xe6 PCD8544.o
- .debug_str     0x00001ddb       0xe6 PCF8814.o
- .debug_str     0x00001ddb       0xe5 SH1106.o
- .debug_str     0x00001ddb       0xe6 SSD1306.o
- .debug_str     0x00001ddb       0xe5 ST7036.o
- .debug_str     0x00001ddb       0xe6 ST7565R.o
- .debug_str     0x00001ddb       0xe5 ST7735.o
- .debug_str     0x00001ddb       0xea Semi_ST7735.o
- .debug_str     0x00001ddb       0xe5 ST7920.o
- .debug_str     0x00001ddb       0xe6 STE2007.o
- .debug_str     0x00001ddb       0xe4 VT100.o
- .debug_str     0x00001ddb       0xe9 RD_Display.o
- .debug_str     0x00001ddb       0x53 wait.o
- .debug_str     0x00001ddb       0x82 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_mulsi3.o)
- .debug_str     0x00001ddb       0x82 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_udivmodqi4.o)
- .debug_str     0x00001ddb       0x82 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_divmodqi4.o)
- .debug_str     0x00001ddb       0x82 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_udivmodhi4.o)
- .debug_str     0x00001ddb       0x82 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_divmodhi4.o)
- .debug_str     0x00001ddb       0x82 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_udivmodsi4.o)
- .debug_str     0x00001ddb       0x82 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_divmodsi4.o)
- .debug_str     0x00001ddb       0x82 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_negsi2.o)
- .debug_str     0x00001ddb       0x82 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_exit.o)
- .debug_str     0x00001ddb       0x82 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_tablejump2.o)
- .debug_str     0x00001ddb       0x82 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_copy_data.o)
- .debug_str     0x00001ddb       0x82 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_clear_bss.o)
- .debug_str     0x00001ddb       0x82 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_umulhisi3.o)
- .debug_str     0x00001ddb       0x82 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_usmulhisi3.o)
- .debug_str     0x00001ddb       0x82 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_muluhisi3.o)
- .debug_str     0x00001ddb       0x82 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_prologue.o)
- .debug_str     0x00001ddb       0x82 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_epilogue.o)
+ .debug_str     0x00000231     0x1ca4 main.o
+                               0x10dd (size before relaxing)
+ .debug_str     0x00001ed5      0xd92 user.o
+ .debug_str     0x00001ed5      0x9d5 pause.o
+ .debug_str     0x00001ed5      0xcb0 adjust.o
+ .debug_str     0x00001ed5      0x9ec ADC.o
+ .debug_str     0x00001ed5      0xbf8 probes.o
+ .debug_str     0x00001ed5      0xdc4 display.o
+ .debug_str     0x00001ed5      0xaaf resistor.o
+ .debug_str     0x00001ed5      0xb4a cap.o
+ .debug_str     0x00001ed5      0xc9a semi.o
+ .debug_str     0x00001ed5      0xa71 inductor.o
+ .debug_str     0x00001ed5      0xc70 tools_misc.o
+ .debug_str     0x00001ed5      0xafe tools_signal.o
+ .debug_str     0x00001ed5      0x9a9 tools_counter.o
+ .debug_str     0x00001ed5      0x9c7 tools_LC_Meter.o
+ .debug_str     0x00001ed5      0x9cc SPI.o
+ .debug_str     0x00001ed5       0xe2 I2C.o
+ .debug_str     0x00001ed5       0xe5 serial.o
+ .debug_str     0x00001ed5       0xe7 commands.o
+ .debug_str     0x00001ed5       0xe6 OneWire.o
+ .debug_str     0x00001ed5       0xe4 IR_RX.o
+ .debug_str     0x00001ed5       0xe4 IR_TX.o
+ .debug_str     0x00001ed5      0xbb8 DHTxx.o
+ .debug_str     0x00001ed5       0xe6 ADS7843.o
+ .debug_str     0x00001ed5       0xe6 MAX6675.o
+ .debug_str     0x00001ed5       0xe7 MAX31855.o
+ .debug_str     0x00001ed5       0xe5 BH1750.o
+ .debug_str     0x00001ed5       0xe5 INA226.o
+ .debug_str     0x00001ed5       0xe6 HD44780.o
+ .debug_str     0x00001ed5       0xe6 ILI9163.o
+ .debug_str     0x00001ed5      0xb2b ILI9341.o
+ .debug_str     0x00001ed5       0xe6 ILI9481.o
+ .debug_str     0x00001ed5       0xe6 ILI9486.o
+ .debug_str     0x00001ed5       0xe6 ILI9488.o
+ .debug_str     0x00001ed5       0xe6 PCD8544.o
+ .debug_str     0x00001ed5       0xe6 PCF8814.o
+ .debug_str     0x00001ed5       0xe5 SH1106.o
+ .debug_str     0x00001ed5       0xe6 SSD1306.o
+ .debug_str     0x00001ed5       0xe5 ST7036.o
+ .debug_str     0x00001ed5       0xe6 ST7565R.o
+ .debug_str     0x00001ed5       0xe5 ST7735.o
+ .debug_str     0x00001ed5       0xea Semi_ST7735.o
+ .debug_str     0x00001ed5       0xe5 ST7920.o
+ .debug_str     0x00001ed5       0xe6 STE2007.o
+ .debug_str     0x00001ed5       0xe4 VT100.o
+ .debug_str     0x00001ed5       0xe9 RD_Display.o
+ .debug_str     0x00001ed5       0x51 wait.o
+ .debug_str     0x00001ed5       0x82 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_mulsi3.o)
+ .debug_str     0x00001ed5       0x82 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_udivmodqi4.o)
+ .debug_str     0x00001ed5       0x82 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_divmodqi4.o)
+ .debug_str     0x00001ed5       0x82 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_udivmodhi4.o)
+ .debug_str     0x00001ed5       0x82 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_divmodhi4.o)
+ .debug_str     0x00001ed5       0x82 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_udivmodsi4.o)
+ .debug_str     0x00001ed5       0x82 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_divmodsi4.o)
+ .debug_str     0x00001ed5       0x82 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_negsi2.o)
+ .debug_str     0x00001ed5       0x82 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_exit.o)
+ .debug_str     0x00001ed5       0x82 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_tablejump2.o)
+ .debug_str     0x00001ed5       0x82 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_copy_data.o)
+ .debug_str     0x00001ed5       0x82 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_clear_bss.o)
+ .debug_str     0x00001ed5       0x82 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_umulhisi3.o)
+ .debug_str     0x00001ed5       0x82 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_usmulhisi3.o)
+ .debug_str     0x00001ed5       0x82 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_muluhisi3.o)
+ .debug_str     0x00001ed5       0x82 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_prologue.o)
+ .debug_str     0x00001ed5       0x82 /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/lib/avr-gcc/9/gcc/avr/9.4.0/avr5/libgcc.a(_epilogue.o)
 
-.debug_loc      0x00000000     0xda86
+.debug_loc      0x00000000     0xe9d7
  *(.debug_loc)
- .debug_loc     0x00000000     0x1a71 main.o
- .debug_loc     0x00001a71     0x1a0d user.o
- .debug_loc     0x0000347e      0x125 pause.o
- .debug_loc     0x000035a3      0xd35 adjust.o
- .debug_loc     0x000042d8      0x25b ADC.o
- .debug_loc     0x00004533     0x1150 probes.o
- .debug_loc     0x00005683     0x1410 display.o
- .debug_loc     0x00006a93      0xc2f resistor.o
- .debug_loc     0x000076c2     0x10e7 cap.o
- .debug_loc     0x000087a9     0x1c74 semi.o
- .debug_loc     0x0000a41d      0x711 inductor.o
- .debug_loc     0x0000ab2e     0x1010 tools_misc.o
- .debug_loc     0x0000bb3e      0xb3d tools_signal.o
- .debug_loc     0x0000c67b       0x7d SPI.o
- .debug_loc     0x0000c6f8      0x8b1 DHTxx.o
- .debug_loc     0x0000cfa9      0xadd ILI9341.o
+ .debug_loc     0x00000000     0x1aaf main.o
+ .debug_loc     0x00001aaf     0x1a0d user.o
+ .debug_loc     0x000034bc      0x125 pause.o
+ .debug_loc     0x000035e1      0xfcb adjust.o
+ .debug_loc     0x000045ac      0x25b ADC.o
+ .debug_loc     0x00004807     0x1150 probes.o
+ .debug_loc     0x00005957     0x1581 display.o
+ .debug_loc     0x00006ed8      0xc73 resistor.o
+ .debug_loc     0x00007b4b     0x10f5 cap.o
+ .debug_loc     0x00008c40     0x26f2 semi.o
+ .debug_loc     0x0000b332      0x74d inductor.o
+ .debug_loc     0x0000ba7f     0x1010 tools_misc.o
+ .debug_loc     0x0000ca8f      0xb3d tools_signal.o
+ .debug_loc     0x0000d5cc       0x7d SPI.o
+ .debug_loc     0x0000d649      0x8b1 DHTxx.o
+ .debug_loc     0x0000defa      0xadd ILI9341.o
 
 .debug_macinfo
  *(.debug_macinfo)
@@ -1693,15 +1702,18 @@ END GROUP
 .debug_pubtypes
  *(.debug_pubtypes)
 
-.debug_ranges   0x00000000      0x198
+.debug_ranges   0x00000000      0x258
  *(.debug_ranges)
  .debug_ranges  0x00000000       0x60 main.o
  .debug_ranges  0x00000060       0x60 user.o
  .debug_ranges  0x000000c0       0x18 pause.o
- .debug_ranges  0x000000d8       0x78 display.o
- .debug_ranges  0x00000150       0x18 resistor.o
- .debug_ranges  0x00000168       0x18 cap.o
- .debug_ranges  0x00000180       0x18 ILI9341.o
+ .debug_ranges  0x000000d8       0x10 adjust.o
+ .debug_ranges  0x000000e8       0x78 display.o
+ .debug_ranges  0x00000160       0x30 resistor.o
+ .debug_ranges  0x00000190       0x18 cap.o
+ .debug_ranges  0x000001a8       0x80 semi.o
+ .debug_ranges  0x00000228       0x18 inductor.o
+ .debug_ranges  0x00000240       0x18 ILI9341.o
 
 .debug_addr
  *(.debug_addr)

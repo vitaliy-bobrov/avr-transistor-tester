@@ -40,7 +40,7 @@ PCB has almost everything as SMD assembly and requires a few components to be so
 
 ## Software
 
-The software used in m-software version 1.55m (see [docs](https://github.com/madires/Transistortester-Warehouse/tree/master/Documentation)), but k-software could be used as well. The pins assignment is based on project docs suggested one. Precompiled version is in the [software](https://github.com/vitaliy-bobrov/avr-transistor-tester/blob/main/software/) folder.
+The software used in modified m-software version 1.56m (see [docs](https://github.com/madires/Transistortester-Warehouse/tree/master/Documentation)), but k-software could be used as well. The pins assignment is based on project docs suggested one. Precompiled version is in the [software](https://github.com/vitaliy-bobrov/avr-transistor-tester/blob/main/software/) folder.
 
 ### Software compilation
 
